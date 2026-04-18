@@ -24,7 +24,7 @@ export default function DownloadPage() {
       </section>
 
       <section className="mx-auto max-w-4xl px-6 pb-20">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-3">
           <div className="rounded-2xl glass p-8">
             <div className="mb-4 inline-flex rounded-full bg-bg-raised px-3 py-1 text-[10px] uppercase tracking-widest text-silver-400 ring-1 ring-silver-800">
               Coming soon
@@ -56,6 +56,23 @@ export default function DownloadPage() {
             >
               Request APK access
             </a>
+          </div>
+
+          <div className="rounded-2xl glass p-8">
+            <div className="mb-4 inline-flex rounded-full bg-warn/10 px-3 py-1 text-[10px] uppercase tracking-widest text-warn ring-1 ring-warn/30">
+              On the roadmap · Stage 6
+            </div>
+            <h2 className="mb-3 text-2xl font-semibold text-silver-100">Pro channel</h2>
+            <p className="mb-6 text-sm text-silver-300">
+              Sideload APK with a custom update manifest served from silverprime.app. Faster
+              releases. Ships with the $SOL skill marketplace (Stage 7).
+            </p>
+            <button
+              disabled
+              className="w-full rounded-full bg-silver-800 px-5 py-3 text-sm font-medium text-silver-500 cursor-not-allowed"
+            >
+              Not built yet
+            </button>
           </div>
         </div>
 

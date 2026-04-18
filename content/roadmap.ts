@@ -116,5 +116,23 @@ export const lanes: {
       status: "planned",
       tags: ["launch"],
     },
+    {
+      id: "stage-6",
+      stage: "Stage 6",
+      title: "Pro channel — sideload APK + custom update manifest",
+      summary:
+        "Power-user APK served direct from silverprime.app. App pings a signed version manifest; updates install via the Android system dialog, no Play Store round-trip. JS-layer capabilities ship freely; native updates prompt a system install. Play Store build continues in parallel for mainstream users.",
+      status: "planned",
+      tags: ["distribution", "sideload", "pro"],
+    },
+    {
+      id: "stage-7",
+      stage: "Stage 7",
+      title: "Solana skill marketplace",
+      summary:
+        "Publish a self-authored capability, verify it in a hosted sandbox, list it on-chain. Buyers pay in $SOL; an Anchor program releases access and tracks marketplace-enforced royalties to the author. Skill bundles on IPFS with pinning; wallet integration via Phantom / Solflare / Backpack. No custom token — payments denominate in $SOL.",
+      status: "planned",
+      tags: ["solana", "sol", "marketplace", "ipfs"],
+    },
   ],
 };

@@ -2,19 +2,12 @@
 
 import { motion } from "framer-motion";
 import type { Milestone } from "../../content/roadmap";
-import { cn } from "@/lib/cn";
+import { StatusBadge, type Status } from "./StatusBadge";
 
-const statusPill: Record<Milestone["status"], string> = {
-  done: "bg-ok/10 text-ok ring-1 ring-ok/30",
-  "in-progress": "bg-accent/15 text-accent-glow ring-1 ring-accent/40",
-  planned: "bg-silver-800 text-silver-300 ring-1 ring-silver-700",
-};
-
-const statusLabel: Record<Milestone["status"], string> = {
-  done: "Shipped",
-  "in-progress": "In progress",
-  planned: "Planned",
-};
+function toStatus(m: Milestone["status"]): Status {
+  if (m === "done") return "shipped";
+  return m;
+}
 
 export function MilestoneCard({ m, index }: { m: Milestone; index: number }) {
   return (
@@ -28,9 +21,7 @@ export function MilestoneCard({ m, index }: { m: Milestone; index: number }) {
     >
       <div className="mb-3 flex items-center justify-between gap-3">
         <span className="font-mono text-xs text-silver-400">{m.stage}</span>
-        <span className={cn("rounded-full px-2.5 py-0.5 text-[10px] uppercase tracking-widest", statusPill[m.status])}>
-          {statusLabel[m.status]}
-        </span>
+        <StatusBadge status={toStatus(m.status)} />
       </div>
       <h3 className="mb-2 text-lg font-semibold text-silver-100">{m.title}</h3>
       <p className="text-sm leading-relaxed text-silver-300">{m.summary}</p>

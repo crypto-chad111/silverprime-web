@@ -17,6 +17,7 @@ const matrix = [
   { feature: "Frontier models via your key (Groq, Anthropic, OpenAI, Gemini)", sp: true, gpt: true, gemini: true, copilot: true },
   { feature: "One-time price, no subscriptions",         sp: true,  gpt: false, gemini: false, copilot: false },
   { feature: "Open roadmap you can read",                sp: true,  gpt: false, gemini: false, copilot: false },
+  { feature: "Self-authored skills with user approval",   sp: true,  gpt: false, gemini: false, copilot: false },
 ];
 
 function Cell({ v }: { v: boolean }) {
@@ -47,8 +48,8 @@ export default function WhyPage() {
       <section className="mx-auto max-w-4xl px-6 py-12 space-y-10">
         <Principle
           num="01"
-          title="On-device by default"
-          body="Phi-3-mini runs locally via llama.rn. You can have a full conversation with zero network. When you want frontier-model power, smart routing kicks requests out to your key — and only with your permission."
+          title="On-device by default (planned — Stage 3.3)"
+          body="Phi-3-mini will run locally via llama.rn so you can hold a full conversation with zero network. Today the cloud path through your Groq key is live; the on-device path is next. When both exist, smart routing picks one based on complexity — and only ever calls the cloud with your permission."
         />
         <Principle
           num="02"
@@ -69,6 +70,11 @@ export default function WhyPage() {
           num="05"
           title="Android-first, not Android-afterthought"
           body="iOS work is cancelled. Not deferred — cancelled. Every pixel of battery, every accessibility hook, every floating-bubble animation is tuned for Android 10+. You get integrations iOS literally cannot ship."
+        />
+        <Principle
+          num="06"
+          title="It learns new skills. You approve each one. (planned — Stage 4)"
+          body="When you ask for something the assistant can't do, it will draft the capability, run it in a sandbox you inspect, and only promote it once you approve. JS-layer updates happen on-device with no network. Native updates route through the Pro channel (Stage 6) with a system install dialog you always confirm. Optional: publish a skill to the Solana marketplace (Stage 7) and earn $SOL when others install it."
         />
       </section>
 

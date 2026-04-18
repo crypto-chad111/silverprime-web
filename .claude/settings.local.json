@@ -32,7 +32,11 @@
       "Bash(winget --version)",
       "Bash(git remote *)",
       "Bash(git push *)",
-      "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'fix: pin @react-three/fiber to v8 for React 18 compatibility *)"
+      "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'fix: pin @react-three/fiber to v8 for React 18 compatibility *)",
+      "Bash(curl -sI https://silverprime.netlify.app/)",
+      "Bash(curl -s https://silverprime.netlify.app/)",
+      "Bash(curl -s -o /dev/null -w '__TRACKED_VAR__: %{http_code}\\\\n' https://silverprime.netlify.app__TRACKED_VAR__)",
+      "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'feat: honest status badges + Solana skill-economy roadmap *)"
     ]
   }
 }
