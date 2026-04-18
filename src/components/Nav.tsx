@@ -9,10 +9,10 @@ export function Nav() {
           <span className="silver-text">Silver Prime</span>
         </Link>
         <ul className="hidden md:flex items-center gap-7 text-sm text-silver-300">
-          <li><Link href="/#features" className="hover:text-silver-100 transition">Features</Link></li>
+          <li><Link href="/features" className="hover:text-silver-100 transition">Features</Link></li>
           <li><Link href="/roadmap" className="hover:text-silver-100 transition">Roadmap</Link></li>
-          <li><Link href="/#why" className="hover:text-silver-100 transition">Why it&apos;s different</Link></li>
-          <li><Link href="/#download" className="hover:text-silver-100 transition">Download</Link></li>
+          <li><Link href="/why" className="hover:text-silver-100 transition">Why it&apos;s different</Link></li>
+          <li><Link href="/download" className="hover:text-silver-100 transition">Download</Link></li>
         </ul>
         <Link
           href="/#waitlist"

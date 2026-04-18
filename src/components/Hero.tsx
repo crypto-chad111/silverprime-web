@@ -1,7 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Orb } from "./Orb";
+import dynamic from "next/dynamic";
+
+const Orb3D = dynamic(() => import("./Orb3D").then((m) => m.Orb3D), {
+  ssr: false,
+  loading: () => <div className="mx-auto h-[340px] w-[340px] rounded-full bg-orb-grad opacity-80" />,
+});
 
 export function Hero() {
   return (
@@ -26,7 +31,7 @@ export function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-10"
         >
-          <Orb state="idle" size={340} />
+          <Orb3D state="idle" size={420} />
         </motion.div>
 
         <motion.p
