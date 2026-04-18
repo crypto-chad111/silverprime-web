@@ -5,10 +5,12 @@ import { MeshDistortMaterial, Float } from "@react-three/drei";
 import { Suspense, useMemo, useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 
-function Core({ state }: { state: "idle" | "listening" | "thinking" }) {
+function Core({ state, reduced }: { state: "idle" | "listening" | "thinking"; reduced: boolean }) {
   const mesh = useRef<THREE.Mesh>(null);
-  const distort = state === "thinking" ? 0.55 : state === "listening" ? 0.4 : 0.3;
-  const speed = state === "thinking" ? 3.0 : state === "listening" ? 2.0 : 1.4;
+  const baseDistort = state === "thinking" ? 0.55 : state === "listening" ? 0.4 : 0.3;
+  const baseSpeed = state === "thinking" ? 3.0 : state === "listening" ? 2.0 : 1.4;
+  const distort = reduced ? baseDistort * 0.4 : baseDistort;
+  const speed = reduced ? baseSpeed * 0.4 : baseSpeed;
 
   useFrame((_, dt) => {
     if (mesh.current) {
@@ -96,16 +98,6 @@ export function Orb3D({
     return () => mq.removeEventListener("change", cb);
   }, []);
 
-  if (reduced) {
-    return (
-      <div
-        className="mx-auto rounded-full bg-orb-grad shadow-glow"
-        style={{ width: size * 0.7, height: size * 0.7 }}
-        aria-hidden
-      />
-    );
-  }
-
   return (
     <div className="relative mx-auto" style={{ width: size, height: size }}>
       <div
@@ -125,9 +117,9 @@ export function Orb3D({
           <ambientLight intensity={0.35} />
           <directionalLight position={[3, 4, 5]} intensity={1.2} color="#F5F5F7" />
           <pointLight position={[-3, -2, -2]} intensity={0.8} color="#7C5CFF" />
-          <Core state={state} />
+          <Core state={state} reduced={reduced} />
           <Halo />
-          <Particles />
+          {!reduced && <Particles />}
         </Suspense>
       </Canvas>
     </div>

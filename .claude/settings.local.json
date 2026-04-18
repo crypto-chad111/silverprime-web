@@ -37,7 +37,9 @@
       "Bash(curl -s https://silverprime.netlify.app/)",
       "Bash(curl -s -o /dev/null -w '__TRACKED_VAR__: %{http_code}\\\\n' https://silverprime.netlify.app__TRACKED_VAR__)",
       "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'feat: honest status badges + Solana skill-economy roadmap *)",
-      "Bash(git commit -m 'fix: mobile nav menu + responsive orb sizing *)"
+      "Bash(git commit -m 'fix: mobile nav menu + responsive orb sizing *)",
+      "Bash(git -c 'user.name=Silver Prime Dev' -c user.email=dev@silverprime.local commit -m 'fix: mobile nav menu + responsive orb sizing *)",
+      "Bash(git -c 'user.name=Silver Prime Dev' -c user.email=dev@silverprime.local commit -am 'fix: render 3D orb on mobile even with reduced-motion *)"
     ]
   }
 }
