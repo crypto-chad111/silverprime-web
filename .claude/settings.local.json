@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(pnpm -v)",
+      "Bash(git --version)",
+      "Bash(npx --yes create-next-app@14 . --ts --tailwind --app --eslint --src-dir --import-alias \"@/*\" --use-npm --no-turbopack)",
+      "Read(//c/dev/**)",
+      "Bash(npx --yes create-next-app@14 silverprime-web-tmp --ts --tailwind --app --eslint --src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(shopt -s dotglob)",
+      "Bash(mv /c/dev/silverprime-web-tmp/* /c/dev/SilverPrime-Web/)",
+      "Bash(rmdir /c/dev/silverprime-web-tmp)",
+      "Bash(npm install *)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); p.name='silverprime-web'; require\\('fs'\\).writeFileSync\\('./package.json', JSON.stringify\\(p,null,2\\)\\);\")",
+      "Bash(npm run *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'feat: scaffold Silver Prime showcase site *)"
+    ]
+  }
+}
