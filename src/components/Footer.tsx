@@ -13,8 +13,7 @@ export function Footer() {
         <div className="flex items-center gap-5">
           {/* TODO: replace with X handle */}
           <a href="#" aria-label="X" className="hover:text-silver-100 transition">X</a>
-          {/* TODO: replace with real repo URL */}
-          <a href="https://github.com/YOUR_HANDLE/silver-prime" className="hover:text-silver-100 transition">GitHub</a>
+          <a href="https://github.com/crypto-chad111" target="_blank" rel="noopener noreferrer" className="hover:text-silver-100 transition">GitHub</a>
           <Link href="/docs" className="hover:text-silver-100 transition">Docs</Link>
           <Link href="/roadmap" className="hover:text-silver-100 transition">Roadmap</Link>
         </div>
