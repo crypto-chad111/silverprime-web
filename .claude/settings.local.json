@@ -24,7 +24,15 @@
       "Bash(curl -s -o /dev/null -w \"/download: %{http_code}\\\\n\" http://localhost:3000/download)",
       "Bash(taskkill //F //FI \"WINDOWTITLE eq next dev*\")",
       "Bash(taskkill //F //IM node.exe //FI \"PID gt 1\")",
-      "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'feat: add manifesto, features, download pages + R3F 3D orb *)"
+      "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'feat: add manifesto, features, download pages + R3F 3D orb *)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(git config *)",
+      "Bash(where gh *)",
+      "Bash(winget --version)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(git -c user.email=dev@silverprime.local -c 'user.name=Silver Prime Dev' commit -m 'fix: pin @react-three/fiber to v8 for React 18 compatibility *)"
     ]
   }
 }
