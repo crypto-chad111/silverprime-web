@@ -2,15 +2,33 @@
 
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 
 const Orb3D = dynamic(() => import("./Orb3D").then((m) => m.Orb3D), {
   ssr: false,
-  loading: () => <div className="mx-auto h-[340px] w-[340px] rounded-full bg-orb-grad opacity-80" />,
+  loading: () => <div className="mx-auto h-[260px] w-[260px] rounded-full bg-orb-grad opacity-80" />,
 });
 
+function useOrbSize() {
+  const [size, setSize] = useState(300);
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w < 480) setSize(260);
+      else if (w < 768) setSize(320);
+      else setSize(420);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return size;
+}
+
 export function Hero() {
+  const orbSize = useOrbSize();
   return (
-    <section className="relative pt-40 pb-32">
+    <section className="relative pt-32 md:pt-40 pb-20 md:pb-32">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.07]"
@@ -31,7 +49,7 @@ export function Hero() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-10"
         >
-          <Orb3D state="idle" size={420} />
+          <Orb3D state="idle" size={orbSize} />
         </motion.div>
 
         <motion.p
@@ -48,7 +66,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="font-display text-5xl md:text-7xl font-semibold tracking-tight text-balance"
+          className="font-display text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-balance"
         >
           <span className="silver-text">The AI assistant</span>
           <br />
