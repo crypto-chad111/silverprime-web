@@ -39,7 +39,7 @@ const features: Feature[] = [
     kicker: "02 · Privacy",
     title: "Privacy by architecture, not policy",
     body:
-      "There's no backend to leak because there isn't one. API keys sit in the Android Keystore. Conversations sit in SQLCipher. Biometric data, if you ever opt in, never leaves the device.",
+      "There's no backend to leak because there isn't one. API keys sit in the Android Keystore. Conversations sit in SQLCipher. Biometric data, if you ever opt in, never leaves the device. Your conversations never leave the device — local inference, local keys, local memory.",
     bullets: [
       "No server-side auth, no analytics, no telemetry — shipped",
       "API keys wrapped by Android Keystore (hardware-backed) — shipped",
@@ -164,6 +164,25 @@ export default function FeaturesPage() {
             </ul>
           </article>
         ))}
+      </section>
+
+      <section className="mx-auto max-w-4xl px-6 pb-24">
+        <h2 className="mb-6 font-display text-2xl md:text-3xl font-semibold silver-text">
+          Privacy FAQ
+        </h2>
+        <div className="rounded-2xl glass p-8">
+          <h3 className="mb-3 text-lg font-semibold text-silver-100">
+            Where does the on-device model live?
+          </h3>
+          <p className="text-silver-300 text-pretty">
+            The default install places the ~2.2 GB Phi-3-mini weight file in Silver Prime&apos;s
+            private app storage, excluded from Android Auto Backup. Developer-mode users can
+            point the app at a sideloaded file in shared storage — in that case the model file
+            itself isn&apos;t private, but since Phi-3 is a public open-source model from
+            Microsoft, its location reveals nothing about you. Your prompts, conversations,
+            keys, and memory remain private on-device in all modes.
+          </p>
+        </div>
       </section>
 
       <Footer />
