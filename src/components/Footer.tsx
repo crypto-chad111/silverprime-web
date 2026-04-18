@@ -11,8 +11,13 @@ export function Footer() {
           <span>Android, for people who own their AI.</span>
         </div>
         <div className="flex items-center gap-5">
-          {/* TODO: replace with X handle */}
-          <a href="#" aria-label="X" className="hover:text-silver-100 transition">X</a>
+          <span
+            aria-label="X (product account — coming soon)"
+            title="Product X account coming soon"
+            className="text-silver-600 cursor-default"
+          >
+            X
+          </span>
           <a href="https://github.com/crypto-chad111" target="_blank" rel="noopener noreferrer" className="hover:text-silver-100 transition">GitHub</a>
           <Link href="/docs" className="hover:text-silver-100 transition">Docs</Link>
           <Link href="/roadmap" className="hover:text-silver-100 transition">Roadmap</Link>

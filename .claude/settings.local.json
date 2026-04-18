@@ -40,7 +40,8 @@
       "Bash(git commit -m 'fix: mobile nav menu + responsive orb sizing *)",
       "Bash(git -c 'user.name=Silver Prime Dev' -c user.email=dev@silverprime.local commit -m 'fix: mobile nav menu + responsive orb sizing *)",
       "Bash(git -c 'user.name=Silver Prime Dev' -c user.email=dev@silverprime.local commit -am 'fix: render 3D orb on mobile even with reduced-motion *)",
-      "Bash(git -c 'user.name=Silver Prime Dev' -c user.email=dev@silverprime.local commit -am 'chore: wire footer GitHub link to crypto-chad111 *)"
+      "Bash(git -c 'user.name=Silver Prime Dev' -c user.email=dev@silverprime.local commit -am 'chore: wire footer GitHub link to crypto-chad111 *)",
+      "Bash(git -c 'user.name=Silver Prime Dev' -c user.email=dev@silverprime.local commit -am 'chore: mute footer X link until product account exists *)"
     ]
   }
 }
