@@ -92,19 +92,19 @@ export function AIPCTeaser() {
           <ImagePlaceholder
             label="AIPC — solo product shot, palm-scale"
             src={droneShotPlaceholder}
-            available={false}
+            available={true}
           />
           {/* Slot 2 — drone + user */}
           <ImagePlaceholder
             label="AIPC hovering in front of user (back-only visible)"
             src={droneUserPlaceholder}
-            available={false}
+            available={true}
           />
           {/* Slot 3 — internal breakdown */}
           <ImagePlaceholder
             label="AIPC internal breakdown — components visible"
             src={droneInternalPlaceholder}
-            available={false}
+            available={true}
           />
         </div>
       </div>
