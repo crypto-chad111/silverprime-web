@@ -220,19 +220,19 @@ export function AIPCTeaser() {
           <GalleryImage
             label="AIPC — outdoor GPS flight"
             src={droneOutdoorSrc}
-            available={false}
+            available={true}
             onExpand={() => expand(droneOutdoorSrc, "AIPC — outdoor GPS flight")}
           />
           <GalleryImage
             label="AIPC — camera lens close-up"
             src={droneLensSrc}
-            available={false}
+            available={true}
             onExpand={() => expand(droneLensSrc, "AIPC — camera lens close-up")}
           />
           <GalleryImage
             label="AIPC — pairing with Silver Prime app"
             src={dronePairingSrc}
-            available={false}
+            available={true}
             onExpand={() => expand(dronePairingSrc, "AIPC — pairing with Silver Prime app")}
           />
         </div>
