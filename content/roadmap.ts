@@ -15,6 +15,7 @@ export const lanes: {
   past: Milestone[];
   present: Milestone[];
   future: Milestone[];
+  hardware: Milestone[];
 } = {
   past: [
     {
@@ -133,6 +134,44 @@ export const lanes: {
         "Publish a self-authored capability, verify it in a hosted sandbox, list it on-chain. Buyers pay in $SOL; an Anchor program releases access and tracks marketplace-enforced royalties to the author. Skill bundles on IPFS with pinning; wallet integration via Phantom / Solflare / Backpack. No custom token — payments denominate in $SOL.",
       status: "planned",
       tags: ["solana", "sol", "marketplace", "ipfs"],
+    },
+  ],
+  hardware: [
+    {
+      id: "aipc-h1",
+      stage: "AIPC · Phase 1",
+      title: "Concept & Integration Design",
+      summary:
+        "Define the circular form factor, hidden-rotor housing geometry, and palm-size target weight. Specify the Wi-Fi Direct protocol between drone and Silver Prime app. Design the RTSP video pipeline, microphone array routing, and speaker integration. No physical hardware — software architecture and interface contracts only.",
+      status: "planned",
+      tags: ["aipc", "design", "wi-fi-direct"],
+    },
+    {
+      id: "aipc-h2",
+      stage: "AIPC · Phase 2",
+      title: "Prototype Hardware",
+      summary:
+        "First physical unit: 130 mm carbon frame, four internally-ducted rotors with recessed vent outlets, HD camera module, GPS receiver, flight controller, slim LiPo pack. Silver Prime app receives live RTSP stream and exposes drone controls through the existing llmRouter interface — no second app, no second AI.",
+      status: "planned",
+      tags: ["aipc", "prototype", "hardware"],
+    },
+    {
+      id: "aipc-h3",
+      stage: "AIPC · Phase 3",
+      title: "Flight Validation & App Integration",
+      summary:
+        "Flight-test the sub-250 g target (no FAA registration required for recreational use). Validate 10–15 minute flight time, altitude hold, GPS return-to-home. Harden the Silver Prime ↔ drone Wi-Fi Direct handshake. Close-beta with a small group of waitlist members.",
+      status: "planned",
+      tags: ["aipc", "testing", "flight"],
+    },
+    {
+      id: "aipc-h4",
+      stage: "AIPC · Phase 4",
+      title: "Production & Commercial Launch",
+      summary:
+        "Manufacturing partner, FCC / CE compliance, packaging. Waitlist early-bird units ($149) ship first, then standard retail ($199). Pro Bundle ($249) adds spare battery and carry case. App + Drone Bundle ($259) pairs hardware with Silver Prime Premium. All units ship with Silver Prime pre-installed — no subscription required.",
+      status: "planned",
+      tags: ["aipc", "launch", "hardware"],
     },
   ],
 };
