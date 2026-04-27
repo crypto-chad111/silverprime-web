@@ -54,7 +54,7 @@ export function Pricing() {
           No subscriptions. Ever.
         </h2>
         <p className="mt-4 text-silver-400">
-          Start free. Unlock everything once. Add the drone when you're ready.
+          Start free. Unlock everything once. Add the drone when you&apos;re ready.
         </p>
       </div>
 
