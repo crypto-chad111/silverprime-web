@@ -11,12 +11,14 @@ export const metadata = {
 };
 
 const gallerySlots: GallerySlot[] = [
-  { src: "/images/aipc-drone-solo.png",    label: "AIPC — studio product shot",           available: true },
-  { src: "/images/aipc-drone-user.png",    label: "AIPC — palm hover, scale reference",   available: true },
-  { src: "/images/aipc-drone-internal.png",label: "AIPC — internal components exploded",  available: true },
-  { src: "/images/aipc-drone-outdoor.png", label: "AIPC — outdoor GPS flight",            available: true },
-  { src: "/images/aipc-drone-lens.png",    label: "AIPC — camera lens close-up",          available: true },
-  { src: "/images/aipc-drone-pairing.png", label: "AIPC — pairing with Silver Prime app", available: true },
+  { src: "/images/aipc-drone-solo.png",         label: "AIPC — studio product shot",                    available: true  },
+  { src: "/images/aipc-drone-user.png",         label: "AIPC — palm hover, scale reference",            available: true  },
+  { src: "/images/aipc-drone-internal.png",     label: "AIPC — internal components exploded",           available: true  },
+  { src: "/images/aipc-drone-outdoor.png",      label: "AIPC — outdoor GPS flight",                     available: true  },
+  { src: "/images/aipc-drone-lens.png",         label: "AIPC — camera lens close-up",                   available: true  },
+  { src: "/images/aipc-drone-pairing.png",      label: "AIPC — pairing with Silver Prime app",          available: true  },
+  { src: "/images/aipc-shoulder-charging.png",  label: "AIPC — landed and charging on shoulder platform", available: false },
+  { src: "/images/aipc-shoulder-flight.png",    label: "AIPC — active scan, shoulder platform visible", available: false },
 ];
 
 const specs = [
@@ -27,14 +29,17 @@ const specs = [
   { label: "Camera",       value: "HD · RTSP stream direct to Silver Prime app" },
   { label: "Audio",        value: "Microphone array + speaker built in" },
   { label: "Navigation",   value: "GPS outdoor position hold · altitude hold indoors · return-to-home" },
-  { label: "Compute",      value: "Onboard Linux SBC (flight control + Wi-Fi Direct) · AI runs on your phone" },
-  { label: "Availability", value: "Estimated Q1 2027 — waitlist only during early bird phase" },
+  { label: "Compute",          value: "Onboard Linux SBC (flight control + Wi-Fi Direct) · AI runs on your phone" },
+  { label: "Shoulder Platform", value: "Magnetic landing pad · wireless charging · USB-C backup · slim carbon fibre cross-body harness · fits all sizes" },
+  { label: "Availability",     value: "Estimated Q1 2027 — waitlist only during early bird phase" },
 ];
 
 const pricingRows = [
   { tier: "Waitlist / Early Bird", price: "$149", detail: "First 200 units · ships Q1 2027", highlight: true },
   { tier: "Standard Retail",       price: "$199", detail: "130 mm carbon frame · GPS · HD camera · speaker/mic", highlight: false },
   { tier: "Pro Bundle",            price: "$249", detail: "Includes spare battery + carry case", highlight: false },
+  { tier: "Shoulder Platform",     price: "$49",  detail: "Magnetic landing pad · wireless charging · fits all harness sizes", highlight: false },
+  { tier: "Full Kit Bundle",       price: "$289", detail: "Pro drone + shoulder platform + Silver Prime Premium", highlight: false },
   { tier: "App + Drone Bundle",    price: "$259", detail: "Pro drone + Silver Prime Premium (save $5)", highlight: false },
 ];
 
@@ -68,6 +73,11 @@ const capabilities = [
     icon: "🔒",
     title: "No subscription. Ever.",
     body: "All AIPC drones ship with Silver Prime pre-installed. The AI brain is your phone. No cloud fees, no monthly charges, no second account. One hardware purchase, done.",
+  },
+  {
+    icon: "🎯",
+    title: "Hands-free launch and return",
+    body: "The shoulder platform harness sits snug across your chest — slim carbon fibre and brushed aluminium, not a gear rack. The AIPC lifts off on command and returns to the magnetic charging pad on your shoulder when done. Wireless charging kicks in the moment it lands. USB-C backup keeps you topped up on the go.",
   },
 ];
 
@@ -211,15 +221,15 @@ export default function AIPCPage() {
           <div className="flex items-center gap-4">
             <span className="text-2xl">🏆</span>
             <div>
-              <p className="font-semibold text-silver-100">Best value: App + Drone Bundle</p>
+              <p className="font-semibold text-silver-100">Best value: Full Kit Bundle</p>
               <p className="text-sm text-silver-400 mt-0.5">
-                Pro drone + Silver Prime Premium — save $5 vs buying separately.
+                Pro drone + shoulder platform + Silver Prime Premium — everything in one.
               </p>
             </div>
           </div>
           <div className="flex items-center gap-4 shrink-0">
             <div className="text-right">
-              <p className="text-2xl font-semibold silver-text">$259</p>
+              <p className="text-2xl font-semibold silver-text">$289</p>
               <p className="text-xs text-silver-500">bundle price</p>
             </div>
             <a

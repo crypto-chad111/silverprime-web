@@ -14,12 +14,14 @@ const stats = [
 ];
 
 const gallerySlots: GallerySlot[] = [
-  { src: "/images/aipc-drone-solo.png",    label: "AIPC — studio product shot",           available: true },
-  { src: "/images/aipc-drone-user.png",    label: "AIPC — palm hover, scale reference",   available: true },
-  { src: "/images/aipc-drone-internal.png",label: "AIPC — internal components exploded",  available: true },
-  { src: "/images/aipc-drone-outdoor.png", label: "AIPC — outdoor GPS flight",            available: true },
-  { src: "/images/aipc-drone-lens.png",    label: "AIPC — camera lens close-up",          available: true },
-  { src: "/images/aipc-drone-pairing.png", label: "AIPC — pairing with Silver Prime app", available: true },
+  { src: "/images/aipc-drone-solo.png",        label: "AIPC — studio product shot",                    available: true  },
+  { src: "/images/aipc-drone-user.png",        label: "AIPC — palm hover, scale reference",            available: true  },
+  { src: "/images/aipc-drone-internal.png",    label: "AIPC — internal components exploded",           available: true  },
+  { src: "/images/aipc-drone-outdoor.png",     label: "AIPC — outdoor GPS flight",                     available: true  },
+  { src: "/images/aipc-drone-lens.png",        label: "AIPC — camera lens close-up",                   available: true  },
+  { src: "/images/aipc-drone-pairing.png",     label: "AIPC — pairing with Silver Prime app",          available: true  },
+  { src: "/images/aipc-shoulder-charging.png", label: "AIPC — landed on shoulder platform, charging",  available: false },
+  { src: "/images/aipc-shoulder-flight.png",   label: "AIPC — active scan mode, shoulder platform on", available: false },
 ];
 
 export function AIPCTeaser() {

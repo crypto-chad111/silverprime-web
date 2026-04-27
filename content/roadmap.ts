@@ -142,7 +142,7 @@ export const lanes: {
       stage: "AIPC · Phase 1",
       title: "Concept & Integration Design",
       summary:
-        "Define the circular form factor, hidden-rotor housing geometry, and palm-size target weight. Specify the Wi-Fi Direct protocol between drone and Silver Prime app. Design the RTSP video pipeline, microphone array routing, and speaker integration. No physical hardware — software architecture and interface contracts only.",
+        "Define the circular form factor, hidden-rotor housing geometry, and palm-size target weight. Specify the Wi-Fi Direct protocol between drone and Silver Prime app. Design the RTSP video pipeline, microphone array routing, and speaker integration. Specify the shoulder platform harness: magnetic landing pad, wireless charging coil, USB-C backup port, slim carbon fibre cross-body strap. No physical hardware — software architecture and interface contracts only.",
       status: "planned",
       tags: ["aipc", "design", "wi-fi-direct"],
     },
@@ -151,7 +151,7 @@ export const lanes: {
       stage: "AIPC · Phase 2",
       title: "Prototype Hardware",
       summary:
-        "First physical unit: 130 mm carbon frame, four internally-ducted rotors with recessed vent outlets, HD camera module, GPS receiver, flight controller, slim LiPo pack. Silver Prime app receives live RTSP stream and exposes drone controls through the existing llmRouter interface — no second app, no second AI.",
+        "First physical unit: 130 mm carbon frame, four internally-ducted rotors with recessed vent outlets, HD camera module, GPS receiver, flight controller, slim LiPo pack. Silver Prime app receives live RTSP stream and exposes drone controls through the existing llmRouter interface — no second app, no second AI. Shoulder platform prototype: circular magnetic charging pad, cross-body harness fit testing across sizes.",
       status: "planned",
       tags: ["aipc", "prototype", "hardware"],
     },
@@ -169,7 +169,7 @@ export const lanes: {
       stage: "AIPC · Phase 4",
       title: "Production & Commercial Launch",
       summary:
-        "Manufacturing partner, FCC / CE compliance, packaging. Waitlist early-bird units ($149) ship first, then standard retail ($199). Pro Bundle ($249) adds spare battery and carry case. App + Drone Bundle ($259) pairs hardware with Silver Prime Premium. All units ship with Silver Prime pre-installed — no subscription required.",
+        "Manufacturing partner, FCC / CE compliance, packaging. Waitlist early-bird units ($149) ship first, then standard retail ($199). Pro Bundle ($249) adds spare battery and carry case. Shoulder Platform add-on ($49) available separately. Full Kit Bundle ($289) pairs Pro drone + shoulder platform + Silver Prime Premium. All units ship with Silver Prime pre-installed — no subscription required.",
       status: "planned",
       tags: ["aipc", "launch", "hardware"],
     },
