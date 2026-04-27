@@ -17,8 +17,8 @@ const gallerySlots: GallerySlot[] = [
   { src: "/images/aipc-drone-outdoor.png",      label: "AIPC — outdoor GPS flight",                     available: true  },
   { src: "/images/aipc-drone-lens.png",         label: "AIPC — camera lens close-up",                   available: true  },
   { src: "/images/aipc-drone-pairing.png",      label: "AIPC — pairing with Silver Prime app",          available: true  },
-  { src: "/images/aipc-shoulder-charging.png",  label: "AIPC — landed and charging on shoulder platform", available: false },
-  { src: "/images/aipc-shoulder-flight.png",    label: "AIPC — active scan, shoulder platform visible", available: false },
+  { src: "/images/aipc-shoulder-charging.png",  label: "AIPC — landed and charging on shoulder platform", available: true  },
+  { src: "/images/aipc-shoulder-flight.png",    label: "AIPC — active scan, shoulder platform visible",   available: true  },
 ];
 
 const specs = [
