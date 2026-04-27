@@ -13,9 +13,9 @@ const stats = [
 ];
 
 // Image placeholders — replace src with real image paths once generated
-const droneShotPlaceholder = "/images/aipc-drone-solo.jpg";
-const droneUserPlaceholder = "/images/aipc-drone-user.jpg";
-const droneInternalPlaceholder = "/images/aipc-drone-internal.jpg";
+const droneShotPlaceholder = "/images/aipc-drone-solo.png";
+const droneUserPlaceholder = "/images/aipc-drone-user.png";
+const droneInternalPlaceholder = "/images/aipc-drone-internal.png";
 
 function ImagePlaceholder({
   label,
