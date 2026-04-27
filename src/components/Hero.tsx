@@ -59,7 +59,7 @@ export function Hero() {
           className="mb-5 inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs tracking-widest uppercase text-silver-300"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse-slow" />
-          Android · Pre-launch · Hybrid LLM
+          Android · Private AI · Always Listening
         </motion.p>
 
         <motion.h1
@@ -68,9 +68,9 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="font-display text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight text-balance"
         >
-          <span className="silver-text">The AI assistant</span>
+          <span className="silver-text">Your AI.</span>
           <br />
-          <span className="shimmer-text">you rename.</span>
+          <span className="shimmer-text">Always with you.</span>
         </motion.h1>
 
         <motion.p
@@ -79,8 +79,8 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.45 }}
           className="mx-auto mt-7 max-w-2xl text-lg md:text-xl text-silver-300 text-pretty"
         >
-          Silver Prime is an Android-native assistant that runs on your device or your key —
-          never on our servers. Call it anything. Own everything.
+          Silver Prime is a private, voice-powered AI assistant for Android.
+          On-device intelligence. Always listening. Always learning.
         </motion.p>
 
         <motion.div
