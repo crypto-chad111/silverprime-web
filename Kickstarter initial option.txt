@@ -1,0 +1,338 @@
+# Plan: Silver Prime AIPC Drone — Kickstarter Campaign & Business Plan
+
+## Context
+User wants a comprehensive Kickstarter campaign + 3-5 year business plan for the AIPC drone.
+Covers: country selection, facility, equipment, staffing, CEO/Co-CEO salaries, manufacturing costs,
+Kickstarter tier structure, and a milestone budget. No numbers are set in stone — suggestions welcome.
+
+## Output
+Create file: `C:\dev\SilverPrime-Web\KICKSTARTER_PLAN.md`
+(In project folder — not committed to GitHub)
+
+## User's Country Preference: Saudi Arabia (Vision 2030)
+Lead with Saudi Arabia as primary target. Note the recommended phased approach:
+- Phase 1 (Year 1–2): Operate from UAE Dubai Free Zone for speed + 0% tax while Saudi entity is established
+- Phase 2 (Year 3+): Shift manufacturing HQ to Saudi (KAEC or NEOM Oxagon), accessing Vision 2030 manufacturing grants, PIF programs, 50-year tax holiday
+- IP holding: UAE free zone entity (permanent 0% tax)
+Saudi salary tables should lead. Saudi school fees for Co-CEO family of 5 to be clearly shown.
+
+---
+
+## Document Structure
+
+### 1. Country Options (5 assessed, top 4 recommended)
+Research scores (1-10): Portugal 8.7 | UAE 8.2 | Saudi 7.6 | Norway 6.4 | Switzerland 4.8
+
+**RECOMMENDATION ORDER:**
+1. **Portugal (Lisbon/Porto)** — TOP PICK for launch phase
+2. **UAE (Dubai Free Zone)** — best for tax-free scaling
+3. **Norway** — user preference, strong grants, free education
+4. **Saudi Arabia** — long-term 5yr+ horizon only
+5. **Switzerland** — NOT recommended (manufacturing cost too high)
+
+---
+
+### 2. Facility Plan (rented warehouse, all countries)
+- **Size:** 1,000 m², ceiling ≥8m (indoor drone testing clearance)
+- **Annual rent:**
+  - Portugal: €66,000–96,000/yr ($73K–106K)
+  - UAE: AED 300,000–420,000/yr ($82K–115K)
+  - Norway: €66,000–90,000/yr ($73K–100K)
+  - Saudi Arabia: SAR 96,000–180,000/yr ($26K–48K) ← cheapest
+
+**Internal fit-out (prefab modules, Chinese-sourced ~$15K each, landed + installed):**
+
+| Zone | Module/Build | Cost |
+|---|---|---|
+| Private Office A (CEO) — suite with toilet/shower/rest | 2 modules + plumbing refurb | $28,000–38,000 |
+| Private Office B (Co-CEO/CTO) — same spec | 2 modules + plumbing refurb | $28,000–38,000 |
+| Conference Room | 1 module + AV fit-out | $20,000–28,000 |
+| Open Plan Office (6-8 stations) | Desks, chairs, cabling | $18,000–25,000 |
+| Assembly Area (ESD flooring, benches, lighting) | Fit-out | $25,000–35,000 |
+| 3D Printing Room (ventilation, benches) | Fit-out | $12,000–18,000 |
+| Paint Shop (professional booth + extraction) | Booth + install | $20,000–25,000 |
+| Communal Toilets × 2 + Showers × 2 | Plumbing + fixtures | $15,000–22,000 |
+| Packaging / Dispatch Area | Shelving, tables, scales | $8,000–12,000 |
+| Storage / Component Room | Racking | $5,000–8,000 |
+| **TOTAL FIT-OUT** | | **$179,000–249,000** |
+
+---
+
+### 3. Equipment List & Costs
+
+| Item | Qty | Unit Cost | Total |
+|---|---|---|---|
+| Bambu Lab X1E industrial 3D printer | 2 | $3,300 | $6,600 |
+| Assembly workstation (full kit) | 8 | $2,800 | $22,400 |
+| Soldering / SMT station (Hakko or equiv.) | 4 | $600 | $2,400 |
+| Reflow oven (SMD boards) | 1 | $4,500 | $4,500 |
+| Electronics inspection microscope | 2 | $800 | $1,600 |
+| Flight test rig + netting enclosure | 1 | $8,000 | $8,000 |
+| Oscilloscope + test bench (electronics QA) | 2 | $1,200 | $2,400 |
+| Drone calibration stand + jig set | 1 | $3,000 | $3,000 |
+| Packaging station (scale, tape, printer) | 2 | $1,500 | $3,000 |
+| Server/NAS + IT infrastructure | 1 | $5,000 | $5,000 |
+| Workstations/laptops (all staff) | 12 | $1,500 | $18,000 |
+| Network/Wi-Fi/security | 1 | $3,500 | $3,500 |
+| Software licences (CAD, Jira, design tools) | 1yr | $8,000 | $8,000 |
+| Safety equipment (fire, first aid, PPE) | — | $3,000 | $3,000 |
+| Miscellaneous tools + consumables | — | $5,000 | $5,000 |
+| **TOTAL EQUIPMENT** | | | **~$96,400** |
+
+---
+
+### 4. Manufacturing — Bill of Materials per Unit
+
+| Component | Cost (USD, at 1K units) |
+|---|---|
+| 4× brushless motors | $24–40 |
+| 4× ESCs | $20–48 |
+| Flight controller | $20–40 |
+| Linux SBC (RPi Zero 2W equiv.) | $15–25 |
+| HD camera module | $20–50 |
+| Wi-Fi Direct module | $8–15 |
+| LiPo battery 3S 1,200 mAh | $15–30 |
+| Carbon fibre + aluminium ring frame | $30–55 |
+| Misc: wiring, connectors, hardware | $12–20 |
+| **TOTAL BOM** | **$164–323** |
+| Assembly labour (~1.5 hrs) | $25–50 |
+| Packaging + manual + labels | $15–20 |
+| **TOTAL COGS** | **$204–393** |
+| **Target COGS at 1K volume** | **~$280** |
+
+**Pricing logic:**
+- COGS $280 → sell at $499–599 → margin $219–319/unit (43–53%)
+- At 1,000 units: $219K–$319K gross profit
+- At 10K units: COGS drops to ~$160 → retail $299 still viable
+
+---
+
+### 5. Staffing Plan
+
+#### Year 1 — Core Team (8 people)
+
+| Role | Monthly Gross | Notes |
+|---|---|---|
+| CEO | See §6 below | Founder |
+| Hardware Engineer #1 | PT: €3,500 / UAE: $4,200 / NO: $7,000 | Lead design |
+| Hardware Engineer #2 | PT: €3,000 / UAE: $3,800 / NO: $6,500 | Production eng |
+| Assembly Technician × 3 | PT: €1,400 ea / UAE: $1,200 ea / NO: $4,000 ea | Build team |
+| Marketing/Brand Manager | PT: €2,800 / UAE: $3,500 / NO: $6,000 | |
+| Operations/Logistics | PT: €1,800 / UAE: $2,200 / NO: $4,500 | |
+
+**Monthly payroll (Portugal, excl. CEO):**
+€17,100 + 11% employer contributions = ~€19,000/month → €228,000/year
+
+#### Year 2 — Scale to 12 people (add)
+
+| Role | Monthly Gross |
+|---|---|
+| QA / Test Engineer | PT: €2,800 |
+| Assembly Technician #4 | PT: €1,400 |
+| Admin/Finance | PT: €1,400 |
+| Co-CEO (optional) | See §6 |
+
+**Year 2 monthly payroll (Portugal, excl. CEO/Co-CEO):** ~€23,700 + contributions = ~€26,300/month → €315,600/year
+
+---
+
+### 6. CEO & Co-CEO Salaries — Country Comparison
+
+#### CEO — Family of 3 Adults (comfortable, not luxury)
+
+| Country | Gross/month | Take-home | 3 Adults Living Cost | Surplus | Notes |
+|---|---|---|---|---|---|
+| **Portugal** | €9,000 | €7,200 (20% IFICI) | €2,800–3,500 | €3,700–4,400 | Best value. 20% flat tax for 10 yrs |
+| **UAE** | $16,000 | $16,000 (0% tax) | $3,500–4,800 | $11,200–12,500 | Tax-free but higher living costs |
+| **Norway** | NOK 150,000 ($14,000) | NOK 90,000 ($8,500) | NOK 45,000–53,000 ($4,200–5,000) | ~$3,500–4,300 | High tax eats into it |
+| **Saudi Arabia** | $13,000 | $13,000 (0% tax) | $3,200–4,800 | $8,200–9,800 | Very good value, lower costs |
+| **Switzerland** | CHF 22,000 ($25,000) | CHF 15,000 ($17,000) | CHF 5,500–7,500 ($6,200–8,500) | ~$8,500–10,800 | Comfortable but very expensive |
+
+#### Optional Co-CEO — Family of 5 (2 adults + 3 children)
+
+| Country | Package | School Situation | Monthly Family Need | Recommended Gross |
+|---|---|---|---|---|
+| **Portugal** | Base + school allowance | International: €5K–10K/yr per child (or Portuguese public FREE) | €5,000–7,500 (incl. schools) | €12,000/month + €15K–30K/yr school allowance |
+| **UAE** | Base + school allowance | Private: $9.5K–17.7K/yr per child | $8,500–14,000 | $20,000/month (covers all) |
+| **Norway** | Base salary | Public school FREE ✓ | NOK 60,000–76,000 ($5,700–7,200) | NOK 185,000/month ($17,400) |
+| **Saudi Arabia** | Base + school allowance | International: $13K–24K/yr per child | $9,000–15,000 | $20,000/month + school allowance |
+
+**Note:** Norway is exceptional for Co-CEO with children — public school is completely free, healthcare is covered by the state, which dramatically reduces the salary needed vs. UAE/Saudi.
+
+---
+
+### 7. Kickstarter Campaign Structure
+
+**Campaign Goal:** $500,000 (minimum fundable)
+**Stretch Goal A:** $750,000 → unlock shoulder platform in launch batch
+**Stretch Goal B:** $1,000,000 → fund 1,000-unit production run
+**Revenue potential (all tiers filled):** ~$863,000
+
+#### Reward Tiers
+
+| Tier | Price | Units | Revenue | What they get |
+|---|---|---|---|---|
+| 🌟 Digital Supporter | $29 | unlimited | est. $14,500 | Silver Prime Premium lifetime licence + name in credits |
+| 🚀 App Founding Member | $99 | 500 | $49,500 | Premium lifetime + Discord VIP + private beta access |
+| 🛸 Pioneer Pack | $399 | 150 | $59,850 | 1 AIPC drone — early bird (20% off retail) |
+| 🛸 Standard Pre-Order | $499 | 250 | $124,750 | 1 AIPC drone |
+| 🛸 Pro Bundle | $599 | 250 | $149,750 | AIPC + Shoulder Platform |
+| 🛸 Full Kit | $699 | 200 | $139,800 | AIPC + Shoulder Platform + spare battery + Silver Prime Premium |
+| 🏆 Innovator Edition | $999 | 100 | $99,900 | Full Kit + engraved nameplate + quarterly founder video calls |
+| 💎 Founding Partner | $2,500 | 30 | $75,000 | Innovator + 1hr video call with founders + Wall of Fame |
+| 👑 Lead Investor | $15,000 | 10 | $150,000 | Full Kit + in-person HQ visit + advisory role + logo on site + early access to all future products |
+| **TOTAL** | | **990 units** | **$863,050** | |
+
+**Premium pre-orders (≥$599):** 590 units → aligns with user's 300+ premium concept  
+**Budget tiers (≤$499):** 400 hardware units + unlimited app tiers
+
+---
+
+### 8. Three-to-Five Year Milestone Budget (Portugal Base)
+
+#### PRE-CAMPAIGN — Year 0 (Months 1–6, ~$120K needed)
+| Item | Cost |
+|---|---|
+| Legal entity setup + IP (trademark, patents) | $15,000 |
+| Prototype development (10 units for video + demos) | $35,000 |
+| Kickstarter campaign video production | $12,000 |
+| Pre-launch marketing, PR, influencer seeding | $25,000 |
+| Founder salary × 2 (6 months partial) | $30,000 |
+| **Total Year 0** | **~$117,000** |
+| **Source:** Founder investment | |
+
+---
+
+#### YEAR 1 — Kickstarter + Setup + First 500 Units (~$1.3M)
+| Item | Cost |
+|---|---|
+| Warehouse lease (12 months) | $85,000 |
+| Facility fit-out (one-time) | $215,000 |
+| Equipment (one-time) | $96,400 |
+| Staffing — 8 people (12 months) | $280,000 |
+| CEO salary (12 months) | $108,000 |
+| Materials — 500 units × $300 COGS | $150,000 |
+| Marketing + campaign management | $60,000 |
+| Legal, admin, certification (EASA CE) | $40,000 |
+| Travel + contingency (15%) | $165,000 |
+| **Total Year 1 SPEND** | **~$1,199,400** |
+| | |
+| **INCOME** | |
+| Kickstarter revenue (if target hit) | $863,000 |
+| Portugal 2030 grant (40% on $311K capex) | $124,400 |
+| SIFIDE II R&D credit (32.5% on $50K R&D) | $16,250 |
+| Startup Voucher grant | $60,000 |
+| **Total Year 1 INCOME** | **~$1,063,650** |
+| **Net Year 1 gap (founder/angel)** | **~$135,750** |
+
+---
+
+#### YEAR 2 — Complete 1,000 Units + Retail Launch (~$960K)
+| Item | Cost |
+|---|---|
+| Warehouse lease | $88,000 |
+| Staffing — 12 people (12 months) | $370,000 |
+| CEO + Co-CEO salaries | $240,000 |
+| Materials — 500 units × $280 COGS | $140,000 |
+| Marketing + retail launch | $90,000 |
+| R&D v1.1 improvements | $40,000 |
+| Legal/Admin | $25,000 |
+| Contingency (10%) | $99,300 |
+| **Total Year 2 SPEND** | **~$1,092,300** |
+| | |
+| **INCOME** | |
+| Direct sales (500 units × $599 avg) | $299,500 |
+| App subscriptions + platform | $30,000 |
+| **Total Year 2 INCOME** | **~$329,500** |
+| **Net Year 2 gap (angel/seed round)** | **~$762,800** |
+
+**Action:** Raise $800K–1M seed round in Year 2 (angel or small VC)
+
+---
+
+#### YEAR 3 — Scale to 3,000 Units + Break-Even Run (~$1.35M)
+| Item | Cost |
+|---|---|
+| Warehouse + possible expansion | $110,000 |
+| Staffing — 18 people | $590,000 |
+| CEO + Co-CEO | $240,000 |
+| Materials — 3,000 units × $260 COGS | $780,000 |
+| Marketing + partnerships | $150,000 |
+| R&D (v2 drone, app enhancements) | $80,000 |
+| Legal/Admin/Ops | $35,000 |
+| **Total Year 3 SPEND** | **~$1,985,000** |
+| | |
+| **INCOME** | |
+| Product sales — 3,000 units × $599 avg | $1,797,000 |
+| App + platform revenue | $80,000 |
+| **Total Year 3 INCOME** | **~$1,877,000** |
+| **Net Year 3 gap** | **~$108,000** ← near break-even |
+
+---
+
+#### YEAR 4–5 — Profitability + Mass Production Path
+| Metric | Year 4 | Year 5 |
+|---|---|---|
+| Units shipped | 6,000 | 10,000+ |
+| COGS per unit (volume) | ~$200 | ~$160 (contract mfg) |
+| Avg selling price | $499 | $399 (market expansion) |
+| Gross revenue | $2.99M | $3.99M |
+| Gross profit | $1.79M | $2.39M |
+| Operating costs | $1.4M | $1.8M |
+| **Net profit** | **~$390K** | **~$590K** |
+| Headcount | 22–25 | 30–35 |
+
+**Year 5 price reduction strategy:** Once at 10K units/month with contract manufacturing, BOM drops to ~$160. Retail at $299–$399. Opens mass market. App ecosystem + shoulder platform + accessories create additional revenue streams.
+
+---
+
+### 9. Total Funding Required (3-Year Runway)
+
+| Phase | Amount | Source |
+|---|---|---|
+| Pre-campaign (Y0) | $117,000 | Founders |
+| Year 1 gap | $136,000 | Founders / grants |
+| Year 2 gap | $763,000 | Seed round |
+| Year 3 (contingency) | $108,000 | Revenue / bridge |
+| **Total 3-year external funding** | **~$1,124,000** | |
+| **Kickstarter contribution** | **$863,000** | Backers |
+| **Grants (Portugal)** | **$200,000** | Government |
+| **GRAND TOTAL NEEDED** | **~$2,187,000** | |
+
+A **$1M–1.5M seed round** in Year 2, combined with Kickstarter success and Portuguese grants, fully funds the 3-year runway with buffer.
+
+---
+
+### 10. Country Final Recommendation
+
+| Country | Best For | Launch? |
+|---|---|---|
+| **Portugal** | Cost, grants, EU EASA compliance, talent | ✅ **Recommended for launch** |
+| **UAE (Dubai)** | 0% tax, logistics, Middle East market | ✅ Consider for scaling HQ (Year 3+) |
+| **Norway** | Quality of life, free education, green brand | ⚠️ Higher costs; consider if personal preference |
+| **Saudi Arabia** | Long-term manufacturing at volume, Vision 2030 | ❌ Not for launch; revisit Year 4–5 |
+| **Switzerland** | Prestige, R&D, IP holding | ❌ Too expensive for hardware manufacturing |
+
+**Hybrid suggestion:** Register in Portugal for operations + manufacturing. Register IP-holding entity in UAE (free zone) for tax efficiency. Best of both worlds.
+
+---
+
+### 11. Key Risks
+
+| Risk | Likelihood | Impact | Mitigation |
+|---|---|---|---|
+| Kickstarter misses target | Medium | High | Set conservative $500K goal; use all-or-nothing |
+| COGS exceed $300/unit | Medium | Medium | Lock in supplier contracts; buffer in pricing |
+| Regulatory delays (EASA CE) | Low | High | Start CE process in Year 0; budget $20K for notified body |
+| Hiring delays (technical talent) | Low | Medium | Portugal has good engineering talent pool |
+| Currency fluctuation | Medium | Low | Invoice in EUR; USD-pegged for Kickstarter |
+| Manufacturing quality issues | Low | High | ISO 9001 QMS from Day 1; 100% test before ship |
+
+---
+
+## Verification
+After creating the document:
+1. Confirm file saved at `C:\Users\Super ADMIN\Documents\SILVER_PRIME_KICKSTARTER_PLAN.md`
+2. Present a clean summary to the user
+3. Ask which country they want to explore deeper
+4. Ask if salary numbers need adjusting for specific personal circumstances
