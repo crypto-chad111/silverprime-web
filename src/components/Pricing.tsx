@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const freeFeatures = [
   "Streaming chat (requires Groq API key)",
@@ -26,7 +27,6 @@ const premiumFeatures = [
   "All future Premium features — forever",
 ];
 
-
 export function Pricing() {
   return (
     <section id="pricing" className="mx-auto max-w-6xl px-6 py-24">
@@ -38,12 +38,12 @@ export function Pricing() {
           No subscriptions. Ever.
         </h2>
         <p className="mt-4 text-silver-400">
-          Start free. Unlock everything once. Add the drone when you&apos;re ready.
+          Start free. Unlock everything once. Hardware pricing announced with the Kickstarter campaign.
         </p>
       </div>
 
-      {/* Three-column cards */}
-      <div className="grid gap-6 lg:grid-cols-3 mb-8">
+      {/* Two-column app pricing */}
+      <div className="grid gap-6 lg:grid-cols-2 max-w-3xl mx-auto mb-8">
 
         {/* ── Free ── */}
         <motion.div
@@ -100,7 +100,6 @@ export function Pricing() {
             <span className="text-silver-400 mb-1">one-time</span>
           </div>
           <p className="text-xs text-silver-500 mb-1">Pay once. Own forever. No recurring charges.</p>
-          {/* Waitlist discount callout */}
           <div className="flex items-center gap-2 mb-6 rounded-xl bg-warn/10 ring-1 ring-warn/25 px-3 py-2">
             <span className="text-warn text-xs">★</span>
             <p className="text-xs text-warn">
@@ -122,104 +121,41 @@ export function Pricing() {
             Get early access — $9.99
           </a>
         </motion.div>
-
-        {/* ── AIPC Drone ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="rounded-2xl relative overflow-hidden p-8 flex flex-col"
-          style={{
-            background: "linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(17,17,20,0.85) 65%)",
-            border: "1px solid rgba(251,191,36,0.2)",
-          }}
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%)" }}
-          />
-          <p className="text-xs uppercase tracking-widest text-warn mb-2">Hardware · Coming 2027</p>
-          <h3 className="text-lg font-semibold text-silver-100 mb-1">AIPC Drone</h3>
-          <div className="flex items-end gap-2 mb-1">
-            <span className="font-display text-5xl font-semibold silver-text">$149</span>
-            <span className="text-silver-400 mb-1">early bird</span>
-          </div>
-          <p className="text-xs text-silver-500 mb-6">$199 standard retail · Q1 2027</p>
-
-          <ul className="space-y-3 mb-8 flex-1">
-            {[
-              "Ring-form AI companion drone — < 250 g",
-              "Your phone IS the AI brain, no separate app",
-              "HD camera · Wi-Fi Direct · mic + speaker",
-              "Shoulder platform harness (+$49)",
-              "No subscription — ever",
-            ].map((f) => (
-              <li key={f} className="flex items-start gap-3 text-sm text-silver-300">
-                <span className="text-warn mt-0.5 shrink-0">◆</span>
-                {f}
-              </li>
-            ))}
-          </ul>
-
-          <div className="space-y-3">
-            <a
-              href="/#waitlist"
-              className="block text-center rounded-full px-6 py-3 text-sm font-semibold text-bg transition hover:brightness-110"
-              style={{ background: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)" }}
-            >
-              Reserve early bird spot
-            </a>
-            <a
-              href="/aipc"
-              className="block text-center rounded-full glass px-6 py-3 text-sm font-medium text-warn hover:text-silver-100 transition"
-            >
-              Full specs, gallery &amp; pricing →
-            </a>
-          </div>
-        </motion.div>
       </div>
 
-      {/* Bundle highlight bar */}
+      {/* AIPC hardware teaser — no pricing yet */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="rounded-2xl glass p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
-        style={{ border: "1px solid rgba(124,92,255,0.25)" }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-3xl mx-auto"
+        style={{
+          background: "linear-gradient(135deg, rgba(251,191,36,0.06) 0%, rgba(17,17,20,0.7) 60%)",
+          border: "1px solid rgba(251,191,36,0.18)",
+        }}
       >
         <div className="flex items-center gap-4">
-          <span className="text-2xl">🏆</span>
+          <span className="text-3xl">🛸</span>
           <div>
-            <p className="font-semibold text-silver-100">
-              Best value: Full Kit Bundle
-            </p>
+            <p className="font-semibold text-silver-100">AIPC Companion Drone</p>
             <p className="text-sm text-silver-400 mt-0.5">
-              Pro drone + shoulder platform + Silver Prime Premium — everything in one.
+              Hardware pricing will be confirmed with the Kickstarter campaign launch.
+              Join the waitlist to be notified first.
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4 shrink-0">
-          <div className="text-right">
-            <p className="text-2xl font-semibold silver-text">$289</p>
-            <p className="text-xs text-silver-500">bundle price</p>
-          </div>
-          <a
-            href="/aipc"
-            className="rounded-full bg-silver-grad px-5 py-2.5 text-sm font-semibold text-bg shadow-glow hover:brightness-110 transition whitespace-nowrap"
+        <div className="flex items-center gap-3 shrink-0">
+          <Link
+            href="/kickstarter"
+            className="rounded-full px-5 py-2.5 text-sm font-semibold text-bg transition hover:brightness-110 whitespace-nowrap"
+            style={{ background: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)" }}
           >
-            See full details →
-          </a>
+            Join the waitlist →
+          </Link>
         </div>
       </motion.div>
 
-      {/* Disclaimers */}
-      <p className="mt-6 text-center text-xs text-silver-600">
-        * Hardware prices are preliminary estimates subject to change.
-        Early bird pricing guaranteed for waitlist members who confirm their spot.
-      </p>
     </section>
   );
 }

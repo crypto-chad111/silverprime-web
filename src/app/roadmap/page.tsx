@@ -79,7 +79,7 @@ export default function RoadmapPage() {
             <span className="rounded-full glass px-3 py-1">{"< 250 g · no FAA registration (US)"}</span>
             <span className="rounded-full glass px-3 py-1">Wi-Fi Direct · no router needed</span>
             <span className="rounded-full glass px-3 py-1">HD camera · mic + speaker</span>
-            <span className="rounded-full glass px-3 py-1">Early bird $149 · Standard $199</span>
+            <span className="rounded-full glass px-3 py-1">Pricing via Kickstarter campaign</span>
           </div>
         </div>
 
