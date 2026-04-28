@@ -1,6 +1,6 @@
 # Session Checkpoint
 **Project:** Silver Prime — AIPC Drone & Android AI Assistant
-**Last updated:** 2026-04-28
+**Last updated:** 2026-04-29
 **Repo:** https://github.com/crypto-chad111/silverprime-web
 **Live site:** https://silverprime.netlify.app
 **Working directory:** C:\dev\SilverPrime-Web
@@ -15,23 +15,26 @@
 
 **AIPC Companion Drone** — ring/toroid-form drone (~130mm, <250g, Linux SBC, HD camera, Wi-Fi Direct). Phone IS the brain. Coming Q1 2027. Pricing TBD — held until Kickstarter.
 
+**Silver Prime Founders Club** — gated investor community platform (in progress). Firebase-backed. Routes under `/community` and `/admin`.
+
 ---
 
-## What Was Completed This Session
+## What Was Completed This Session (2026-04-29)
 
 | Commit | What Shipped |
 |---|---|
-| `606c8f9` | SESSION_CHECKPOINT.md created + /checkpoint protocol added to CLAUDE.md |
-| `1904166` | Kickstarter pre-launch page merged to main — /kickstarter live, Nav tab added |
-| `e103dea` | AIPCTeaser stripped to slim split-card teaser (no duplicate gallery) |
-| `987440f` | All AIPC pricing removed from entire site — held for Kickstarter campaign |
-| `ae586e1` | Site reorganisation merged — no duplicate content anywhere |
-| `6561f97` | SilverBot — Jarvis-style AI chatbot widget built and committed |
-| `0f828e6` | SilverBot merged to main — live on every page |
+| `962d899` | SilverBot floating edge patrol — orb drifts along right+bottom viewport edges every 28s |
+| `0f01e74` | Saudi HQ reference removed from Kickstarter stretch goals |
+| `c1bd518` | Founders Club Phase 1 — Firebase setup + 5 community routes + TierBadge component |
 
 **Non-code work completed:**
-- GROQ_API_KEY added to Netlify as a secret env var — SilverBot fully AI-powered after redeploy
-- Memory files consolidated and updated (3 files → 2 files + MEMORY.md index)
+- Firebase project `silverprime-founders` created (Blaze plan)
+- Firestore database created (eur3 europe-west)
+- Firebase Storage created (US-CENTRAL1)
+- Firebase Auth enabled (Email/Password)
+- Firestore security rules published (production mode)
+- Storage security rules published (proofs/avatars/banners — owner writes, members read)
+- `.env.local` created with all Firebase config keys (gitignored)
 
 ---
 
@@ -40,62 +43,79 @@
 ### Website Routes
 | Route | Status | Notes |
 |---|---|---|
-| `/` | ✅ Live | Home: Hero, Pillars, HowItWorks, AIPCTeaser (slim), Pricing (app only), SkillEconomy, Waitlist |
-| `/features` | ✅ Live | 6 app features only — zero AIPC content |
-| `/aipc` | ✅ Live | Full AIPC page — gallery, capabilities, specs, hardware roadmap, Kickstarter CTA |
+| `/` | ✅ Live | Home page |
+| `/features` | ✅ Live | App features |
+| `/aipc` | ✅ Live | Full AIPC drone page |
 | `/roadmap` | ✅ Live | App + hardware milestones |
 | `/why` | ✅ Live | Comparison matrix |
-| `/download` | ✅ Live | APK access, Play Store status |
-| `/kickstarter` | ✅ Live | Pre-launch waitlist page — hero, 4 tier preview cards, stretch goals, email form |
-| `/api/chat` | ✅ Live | Edge function — SilverBot AI backend (Groq) |
+| `/download` | ✅ Live | APK access |
+| `/kickstarter` | ✅ Live | Pre-launch waitlist — Saudi HQ ref removed |
+| `/api/chat` | ✅ Live | SilverBot AI backend (Groq) |
 
-### Key Components
+### Founders Club Routes (Firebase-backed)
+| Route | Status | Notes |
+|---|---|---|
+| `/community` | ✅ Built | Login page + tier badge showcase + password reset |
+| `/community/signup` | ✅ Built | 3-step: account → profile → investment proof upload |
+| `/community/pending` | ✅ Built | Waiting screen for unverified applicants |
+| `/community/feed` | ✅ Built | Real-time Firestore chat, tier stats bar, Platinum founder profiles |
+| `/community/me` | ✅ Built | Profile editor, avatar/banner upload, investment dashboard, privacy toggle |
+| `/community/profile/[id]` | 🔲 TODO | View another member's public profile |
+| `/admin` | 🔲 TODO | Admin login with TOTP 2FA |
+| `/admin/dashboard` | 🔲 TODO | Member table, pending verifications, DMs, ban controls |
+| `/admin/recovery` | 🔲 TODO | Safe code recovery flow |
+
+### Key New Files
 | File | Status | Notes |
 |---|---|---|
-| `src/components/SilverBot.tsx` | ✅ Live | Jarvis orb + thought bubble + chat UI — every page |
-| `src/app/api/chat/route.ts` | ✅ Live | Edge function, calls Groq, key server-side |
-| `src/data/silverbot-knowledge.ts` | ✅ Live | SilverBot knowledge base — edit to update what bot knows |
-| `src/components/AIPCTeaser.tsx` | ✅ Live | Slim split-card teaser only — no duplicate gallery |
-| `src/components/Pricing.tsx` | ✅ Live | Free + Premium only — AIPC column replaced with Kickstarter teaser |
-| `src/app/kickstarter/page.tsx` | ✅ Live | Server shell |
-| `src/app/kickstarter/KickstarterClient.tsx` | ✅ Live | Full pre-launch page UI |
-| `src/components/Nav.tsx` | ✅ Live | Kickstarter 🚀 tab added |
+| `src/lib/firebase.ts` | ✅ Live | Firebase client SDK init |
+| `src/lib/types.ts` | ✅ Live | Shared TypeScript types |
+| `src/lib/useAuth.ts` | ✅ Live | Real-time auth + profile hook |
+| `src/data/tiers.ts` | ✅ Live | 9-tier catalogue (Supporter → Lead Investor) |
+| `src/components/community/TierBadge.tsx` | ✅ Live | Coloured tier badge component |
+| `.env.local` | ✅ Local only | Firebase config — gitignored, NOT in repo |
 
-### Images (`public/images/`)
-All 11 images committed and live — see CLAUDE.md for full list.
+### Firebase Project
+| Resource | Status | Notes |
+|---|---|---|
+| Project ID | `silverprime-founders` | Blaze plan |
+| Firestore | ✅ Live | eur3 europe-west, production rules |
+| Storage | ✅ Live | US-CENTRAL1, production rules |
+| Auth | ✅ Live | Email/Password enabled |
 
-### Business Documents (not in git — private)
-| File | Status |
-|---|---|
-| `KICKSTARTER_PLAN.md` | ✅ Complete — Saudi HQ, $3–5M budget, 14-tier structure, 5-year budget |
-| `KICKSTARTER_CAMPAIGN_NARRATIVE.md` | ✅ Complete — story, page copy, video script, email sequence |
-
-### Netlify Environment
+### Netlify Environment Variables Needed
 | Variable | Status |
 |---|---|
-| `GROQ_API_KEY` | ✅ Set as secret — SilverBot AI-powered after next deploy |
+| `GROQ_API_KEY` | ✅ Set |
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | ⚠️ NOT YET SET — add to Netlify before deploying community |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | ⚠️ NOT YET SET |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ⚠️ NOT YET SET |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | ⚠️ NOT YET SET |
+| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | ⚠️ NOT YET SET |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | ⚠️ NOT YET SET |
+| `ADMIN_SAFE_CODE` | ⚠️ NOT YET SET — agree passphrase when building admin |
 
 ---
 
 ## Exact Pending Work — Do This Next
 
-**1. Kickstarter campaign page — full build**
-- Finalise pricing tiers (review KICKSTARTER_PLAN.md §7 for the 14 tiers)
-- Add countdown timer to campaign launch date
-- Wire email form to real backend (Mailchimp / ConvertKit / Supabase)
-- Add launch-day redirect banner → actual Kickstarter.com page
-- Feature branch: `feature/kickstarter-full`
+**1. Founders Club — remaining pages (next session priority)**
+- `/community/profile/[id]` — public profile view for any member
+- `/admin` — admin login with TOTP 2FA enforcement
+- `/admin/dashboard` — full admin panel (member table, pending queue, DMs, ban/unban)
+- `/admin/recovery` — safe code lockout recovery
+- Add "Founders Club" link to main Nav.tsx
+- Add Firebase env vars to Netlify (all 6 NEXT_PUBLIC_ vars from .env.local)
+- Agree on ADMIN_SAFE_CODE passphrase and add to Netlify
 
-**2. Email backend**
-- Both the /kickstarter waitlist form and the /#waitlist form need real email capture
-- Options: Mailchimp embed, ConvertKit form, or Supabase + Resend
+**2. First admin account setup**
+- After admin dashboard is built: create an account via /community/signup, then manually set `isAdmin: true` in Firestore console for that UID
 
-**3. Founder bios**
-- Add to KICKSTARTER_CAMPAIGN_NARRATIVE.md (need real names/backgrounds)
+**3. Kickstarter campaign page — full build**
+- Countdown timer, finalised tier pricing, email backend (Firebase or Mailchimp)
 
-**4. Saudi Arabia company setup**
-- KAEC business authority contact for industrial unit availability
-- Identify Saudi legal counsel for LLC formation
+**4. Email backend**
+- Wire /kickstarter and /#waitlist forms to real email capture
 
 ---
 
@@ -106,12 +126,12 @@ All 11 images committed and live — see CLAUDE.md for full list.
 | Android-only | iOS cancelled, not deferred |
 | No custom token | Solana marketplace uses $SOL only |
 | AIPC pricing held | Not published until Kickstarter campaign finalised |
-| Saudi Arabia HQ | Vision 2030, 0% personal tax, cheapest industrial real estate |
+| HQ location | TBD — Saudi Arabia high on the list but private until finalised |
 | Kickstarter-only funding | No VC, no angels, no grants — community funded |
-| Kickstarter minimum goal: $1.5M | Covers lean Year 1 (1,000 units, core team, facility) |
-| Kickstarter full potential: ~$3.1M | 14 tiers including $50K Platinum Founder |
-| CEO salary: $15–18K/month tax-free | Family of 3 adults, Saudi Arabia |
-| Co-CEO salary: $18–22K/month + school | Family of 5; $33–60K/yr school fees |
+| Firebase (not Supabase) | User already had a Firebase account |
+| Founders Club = /community | Same domain, not separate |
+| Platform name | Silver Prime Founders Club |
+| Admin safe code | Agreed privately at build time, stored only as Netlify env var |
 | SilverBot knowledge base | `src/data/silverbot-knowledge.ts` — edit to update AI answers |
 
 ---
