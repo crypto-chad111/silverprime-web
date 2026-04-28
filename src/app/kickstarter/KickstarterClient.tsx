@@ -83,7 +83,7 @@ const pillars = [
 ];
 
 const stretchGoals = [
-  { amount: "$1.5M", label: "Minimum goal",   detail: "Year 1 production run — 1,000 units, core team, Saudi HQ" },
+  { amount: "$1.5M", label: "Minimum goal",   detail: "Year 1 production run — 1,000 units, core team setup" },
   { amount: "$2M",   label: "Stretch goal A", detail: "Shoulder platform included FREE in all Pro+ tiers" },
   { amount: "$3M",   label: "Stretch goal B", detail: "Dual-camera AIPC variant + night vision mode unlocked" },
 ];
