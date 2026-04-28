@@ -113,6 +113,15 @@ All 8 AIPC concept renders are AI-generated (Midjourney/similar). Final hardware
 1. **Replace aipc-drone-internal.png** — new image needed. Prompt (v3, ring form) is in the plan file at `C:\Users\Super ADMIN\.claude\plans\both-images-have-been-hazy-quasar.md`. Once generated, drop into `public/images/` and commit.
 2. **Kickstarter / crowdfunding plan** — not yet started. User wants a campaign doc: story, reward tiers, stretch goals, video script.
 
+## Git workflow (IMPORTANT — follow every session)
+- **Never commit directly to `main`**
+- All work goes on a feature branch: `feature/<short-description>`
+- Use a worktree sandbox to build and test before committing
+- Run `npm run build` in the sandbox — must pass clean before any commit
+- Open a Pull Request when ready → user reviews on GitHub → merges → Netlify deploys
+- Delete the sandbox branch after merge
+- Auto-generated `claude/*` branches are throwaway sandboxes — delete them after use
+
 ## Key decisions / history
 - Android-only (iOS cancelled, not deferred)
 - No custom token — Solana marketplace uses $SOL only
