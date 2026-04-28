@@ -110,8 +110,11 @@ All 8 AIPC concept renders are AI-generated (Midjourney/similar). Final hardware
 - Font: display font for headings, clean sans for body
 
 ## Pending work
-1. **Replace aipc-drone-internal.png** — new image needed. Prompt (v3, ring form) is in the plan file at `C:\Users\Super ADMIN\.claude\plans\both-images-have-been-hazy-quasar.md`. Once generated, drop into `public/images/` and commit.
-2. **Kickstarter / crowdfunding plan** — not yet started. User wants a campaign doc: story, reward tiers, stretch goals, video script.
+1. **Replace aipc-drone-internal.png** — ✅ DONE (committed 6d58a55). Ring/toroid form now correct.
+2. **Kickstarter plan** — ✅ DONE. Two documents created (NOT committed to git — private business docs):
+   - `KICKSTARTER_PLAN.md` — full business plan: Saudi Arabia HQ, $3–5M budget, facility, staffing, CEO/Co-CEO salaries, 14-tier reward structure, 5-year milestone budget
+   - `KICKSTARTER_CAMPAIGN_NARRATIVE.md` — campaign story, page copy, video script (90–120 sec founder-on-camera), 5-email pre-launch sequence, messaging pillars
+3. **Next steps for Kickstarter:** Founder bio details, campaign video shoot, page design brief, pre-launch email list building
 
 ## Git workflow (IMPORTANT — follow every session)
 - **Never commit directly to `main`**
