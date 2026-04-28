@@ -13,7 +13,7 @@
 
 **The website** (this repo) is the marketing/showcase site built in Next.js 14 App Router + TypeScript + Tailwind + Framer Motion. Auto-deploys to Netlify from the `main` branch.
 
-**AIPC Companion Drone** — a ring/toroid-form drone (~130mm, <250g, Linux SBC, HD camera, Wi-Fi Direct) that pairs with Silver Prime. The phone IS the brain. The drone is the eyes. Coming 2027.
+**AIPC Companion Drone** — ring/toroid-form drone (~130mm, <250g, Linux SBC, HD camera, Wi-Fi Direct). Phone IS the brain. Coming Q1 2027. Pricing TBD — held until Kickstarter.
 
 ---
 
@@ -21,86 +21,81 @@
 
 | Commit | What Shipped |
 |---|---|
-| `e74cf29` | Both shoulder platform images activated in gallery (`available: false` → `true`). All 8 AIPC gallery slots now live. Also added `hero-phone.png`, `howitworks-routing.png`, `skill-economy.png` to git. |
-| `4937b42` | `CLAUDE.md` created — session failsafe. Auto-loaded by Claude Code on every new session. |
-| `6d58a55` | `aipc-drone-internal.png` replaced with correct ring/toroid exploded-view image. |
-| `51e968c` | `.gitignore` updated — `.claude/settings.local.json` and `.claude/worktrees/` now ignored permanently. |
-| `060a9a8` | Git workflow rules written into `CLAUDE.md` — never commit to main, always use feature branch + sandbox. |
-| `906b3fe` | `CLAUDE.md` updated with Kickstarter plan status and next steps. |
+| `606c8f9` | SESSION_CHECKPOINT.md created + /checkpoint protocol added to CLAUDE.md |
+| `1904166` | Kickstarter pre-launch page merged to main — /kickstarter live, Nav tab added |
+| `e103dea` | AIPCTeaser stripped to slim split-card teaser (no duplicate gallery) |
+| `987440f` | All AIPC pricing removed from entire site — held for Kickstarter campaign |
+| `ae586e1` | Site reorganisation merged — no duplicate content anywhere |
+| `6561f97` | SilverBot — Jarvis-style AI chatbot widget built and committed |
+| `0f828e6` | SilverBot merged to main — live on every page |
 
-**Non-code deliverables created (in project folder, NOT committed to git):**
-- `KICKSTARTER_PLAN.md` — full business plan: Saudi Arabia HQ, $3–5M budget, 14-tier Kickstarter structure, facility/equipment/staffing/salary breakdown, 5-year milestone budget
-- `KICKSTARTER_CAMPAIGN_NARRATIVE.md` — campaign story, full page copy, 90-sec founder video script, 5-email pre-launch sequence, messaging pillars
+**Non-code work completed:**
+- GROQ_API_KEY added to Netlify as a secret env var — SilverBot fully AI-powered after redeploy
+- Memory files consolidated and updated (3 files → 2 files + MEMORY.md index)
 
 ---
 
 ## Current State of Every File That Matters
 
-### Website Source
+### Website Routes
+| Route | Status | Notes |
+|---|---|---|
+| `/` | ✅ Live | Home: Hero, Pillars, HowItWorks, AIPCTeaser (slim), Pricing (app only), SkillEconomy, Waitlist |
+| `/features` | ✅ Live | 6 app features only — zero AIPC content |
+| `/aipc` | ✅ Live | Full AIPC page — gallery, capabilities, specs, hardware roadmap, Kickstarter CTA |
+| `/roadmap` | ✅ Live | App + hardware milestones |
+| `/why` | ✅ Live | Comparison matrix |
+| `/download` | ✅ Live | APK access, Play Store status |
+| `/kickstarter` | ✅ Live | Pre-launch waitlist page — hero, 4 tier preview cards, stretch goals, email form |
+| `/api/chat` | ✅ Live | Edge function — SilverBot AI backend (Groq) |
+
+### Key Components
 | File | Status | Notes |
 |---|---|---|
-| `src/app/page.tsx` | ✅ Live | Home page — Hero, HowItWorks, Pillars, SkillEconomyTeaser, AIPCTeaser, Pricing, Waitlist |
-| `src/app/aipc/page.tsx` | ✅ Live | Full AIPC drone page — all 8 gallery slots active |
-| `src/app/roadmap/page.tsx` | ✅ Live | Full roadmap |
-| `src/components/AIPCGallery.tsx` | ✅ Live | Reusable gallery — glowing tiles (available:true) vs placeholder (available:false) |
-| `src/components/AIPCTeaser.tsx` | ✅ Live | Home page teaser — all 8 slots active |
-| `src/components/Pricing.tsx` | ✅ Live | Three-column pricing: Free / Premium / AIPC |
-| `content/roadmap.ts` | ✅ Live | Single source of truth for roadmap milestones |
+| `src/components/SilverBot.tsx` | ✅ Live | Jarvis orb + thought bubble + chat UI — every page |
+| `src/app/api/chat/route.ts` | ✅ Live | Edge function, calls Groq, key server-side |
+| `src/data/silverbot-knowledge.ts` | ✅ Live | SilverBot knowledge base — edit to update what bot knows |
+| `src/components/AIPCTeaser.tsx` | ✅ Live | Slim split-card teaser only — no duplicate gallery |
+| `src/components/Pricing.tsx` | ✅ Live | Free + Premium only — AIPC column replaced with Kickstarter teaser |
+| `src/app/kickstarter/page.tsx` | ✅ Live | Server shell |
+| `src/app/kickstarter/KickstarterClient.tsx` | ✅ Live | Full pre-launch page UI |
+| `src/components/Nav.tsx` | ✅ Live | Kickstarter 🚀 tab added |
 
 ### Images (`public/images/`)
+All 11 images committed and live — see CLAUDE.md for full list.
+
+### Business Documents (not in git — private)
 | File | Status |
 |---|---|
-| `aipc-drone-solo.png` | ✅ Live |
-| `aipc-drone-user.png` | ✅ Live |
-| `aipc-drone-internal.png` | ✅ Live — **NEW** ring/toroid exploded view (replaced puck shape) |
-| `aipc-drone-outdoor.png` | ✅ Live |
-| `aipc-drone-lens.png` | ✅ Live |
-| `aipc-drone-pairing.png` | ✅ Live |
-| `aipc-shoulder-charging.png` | ✅ Live — **NEW this session** |
-| `aipc-shoulder-flight.png` | ✅ Live — **NEW this session** |
-| `hero-phone.png` | ✅ Live |
-| `howitworks-routing.png` | ✅ Live |
-| `skill-economy.png` | ✅ Live |
+| `KICKSTARTER_PLAN.md` | ✅ Complete — Saudi HQ, $3–5M budget, 14-tier structure, 5-year budget |
+| `KICKSTARTER_CAMPAIGN_NARRATIVE.md` | ✅ Complete — story, page copy, video script, email sequence |
 
-### Business Documents (not in git)
-| File | Status |
+### Netlify Environment
+| Variable | Status |
 |---|---|
-| `KICKSTARTER_PLAN.md` | ✅ Complete — planning stage |
-| `KICKSTARTER_CAMPAIGN_NARRATIVE.md` | ✅ Complete — planning stage |
-
-### Session & Context Files
-| File | Location | Notes |
-|---|---|---|
-| `CLAUDE.md` | Repo root | Auto-loaded each session. Full project context. |
-| `SESSION_CHECKPOINT.md` | Repo root | This file. Updated each `/checkpoint`. |
-| `KICKSTARTER_PLAN.md` | Repo root | Business plan — not committed |
-| `KICKSTARTER_CAMPAIGN_NARRATIVE.md` | Repo root | Campaign copy — not committed |
-| Plan file | `C:\Users\Super ADMIN\.claude\plans\both-images-have-been-hazy-quasar.md` | Image prompts + implementation plans |
+| `GROQ_API_KEY` | ✅ Set as secret — SilverBot AI-powered after next deploy |
 
 ---
 
 ## Exact Pending Work — Do This Next
 
-**1. Kickstarter campaign — refine and extend**
-- Add founder bios to `KICKSTARTER_CAMPAIGN_NARRATIVE.md` (need real names/backgrounds)
-- Brief a designer on the Kickstarter page layout using the copy in Part 2
-- Plan the campaign video shoot — founder on camera, working prototype required
-- Start building the pre-launch email list (target: 15,000+ before Day 1)
+**1. Kickstarter campaign page — full build**
+- Finalise pricing tiers (review KICKSTARTER_PLAN.md §7 for the 14 tiers)
+- Add countdown timer to campaign launch date
+- Wire email form to real backend (Mailchimp / ConvertKit / Supabase)
+- Add launch-day redirect banner → actual Kickstarter.com page
+- Feature branch: `feature/kickstarter-full`
 
-**2. Website — Kickstarter landing page**
-- Create `/kickstarter` route on silverprime.app
-- Pre-launch waitlist capture with email + countdown timer
-- Use campaign copy from `KICKSTARTER_CAMPAIGN_NARRATIVE.md`
-- Feature branch: `feature/kickstarter-landing-page`
+**2. Email backend**
+- Both the /kickstarter waitlist form and the /#waitlist form need real email capture
+- Options: Mailchimp embed, ConvertKit form, or Supabase + Resend
 
-**3. Saudi Arabia company setup research**
-- KAEC (King Abdullah Economic City) vs NEOM Oxagon — confirm which is operational for Year 1
-- Contact KAEC business authority for industrial unit availability and pricing
+**3. Founder bios**
+- Add to KICKSTARTER_CAMPAIGN_NARRATIVE.md (need real names/backgrounds)
+
+**4. Saudi Arabia company setup**
+- KAEC business authority contact for industrial unit availability
 - Identify Saudi legal counsel for LLC formation
-
-**4. Image — internal breakdown prompt saved**
-- New `aipc-drone-internal.png` has been replaced ✅
-- If a better version is needed, use the v3 prompt in the plan file
 
 ---
 
@@ -110,21 +105,18 @@
 |---|---|
 | Android-only | iOS cancelled, not deferred |
 | No custom token | Solana marketplace uses $SOL only |
-| Pro APK (Stage 6) before marketplace (Stage 7) | Play Store policy: marketplace is Pro-only |
-| AIPC price $499–$599 | 50%+ margin at $280 COGS; drops to $299–$399 at 10K+ units |
-| Saudi Arabia HQ | Vision 2030, 0% personal tax, cheapest industrial real estate, KAEC operational |
+| AIPC pricing held | Not published until Kickstarter campaign finalised |
+| Saudi Arabia HQ | Vision 2030, 0% personal tax, cheapest industrial real estate |
 | Kickstarter-only funding | No VC, no angels, no grants — community funded |
 | Kickstarter minimum goal: $1.5M | Covers lean Year 1 (1,000 units, core team, facility) |
 | Kickstarter full potential: ~$3.1M | 14 tiers including $50K Platinum Founder |
-| Single location: Saudi | No phased move — set up in Saudi from Day 1 |
-| CEO salary: $15–18K/month tax-free | Covers family of 3 adults comfortably in Saudi |
-| Co-CEO salary: $18–22K/month + school allowance | Covers family of 5; $33–60K/yr school fees separate |
+| CEO salary: $15–18K/month tax-free | Family of 3 adults, Saudi Arabia |
+| Co-CEO salary: $18–22K/month + school | Family of 5; $33–60K/yr school fees |
+| SilverBot knowledge base | `src/data/silverbot-knowledge.ts` — edit to update AI answers |
 
 ---
 
 ## How to Resume in a New Session
-
-Paste this into any new Claude Code session in this project:
 
 ```
 Read CLAUDE.md and SESSION_CHECKPOINT.md, then tell me where we left off and what the next step is.
@@ -134,14 +126,11 @@ Read CLAUDE.md and SESSION_CHECKPOINT.md, then tell me where we left off and wha
 
 ## Checkpoint Protocol
 
-To save a new checkpoint at any time, say:
-
-```
-/checkpoint
-```
-
-Claude will:
-1. Review all recent commits and changed files
-2. Update this `SESSION_CHECKPOINT.md` with the current state
-3. Update `CLAUDE.md` if any pending work items changed
-4. Commit both files and push to `main`
+Type `/checkpoint` and Claude will:
+1. Run `git log --oneline -10`
+2. Review all changed files since last checkpoint
+3. Update this `SESSION_CHECKPOINT.md`
+4. Update `CLAUDE.md` pending work section if anything changed
+5. Commit both files to `main` with message: `chore: session checkpoint [date]`
+6. Push to origin/main
+7. Confirm: "Checkpoint saved and pushed ✅"

@@ -37,13 +37,9 @@ Future hardware product. Silver Prime phone IS the AI brain — drone is a senso
 - GPS outdoor / altitude hold indoor
 - Linux SBC onboard (flight control only) — AI runs on phone
 
-**Pricing:**
-- Waitlist / Early Bird: $149 (first 200 units)
-- Standard Retail: $199
-- Pro Bundle: $249 (spare battery + carry case)
-- Shoulder Platform add-on: $49 (magnetic landing pad, wireless charging, USB-C, carbon fibre cross-body harness)
-- Full Kit Bundle: $289 (Pro drone + shoulder platform + Silver Prime Premium) ← best value
-- App + Drone Bundle: $259 (Pro drone + Silver Prime Premium)
+**Pricing: ⚠️ TBD — NOT published on site**
+All AIPC pricing has been removed from the website. Pricing will be confirmed with the Kickstarter campaign.
+Do NOT add prices back until the Kickstarter plan is finalised. Every site reference now points to /kickstarter.
 
 **Shoulder Platform:** slim carbon fibre cross-body harness. Drone lifts off on command, returns to magnetic charging pad on shoulder. Wireless charging on landing, USB-C backup.
 
@@ -64,19 +60,24 @@ src/app/
   why/              — Why Silver Prime page
 
 src/components/
-  Nav.tsx           — Navigation (Home, Features, Roadmap, AIPC, Download tabs)
-  AIPCGallery.tsx   — Reusable gallery: glowing tiles (available:true) vs placeholder (available:false)
-  AIPCTeaser.tsx    — Home page AIPC section with 8-slot gallery
-  Hero.tsx          — Home hero
-  HowItWorks.tsx    — Hybrid AI routing explainer
-  Pillars.tsx       — Core feature pillars
-  Pricing.tsx       — Free / Premium / AIPC pricing columns
+  Nav.tsx              — Navigation (Features, Roadmap, AIPC, Kickstarter 🚀, Download)
+  AIPCGallery.tsx      — Reusable gallery: glowing tiles (available:true) vs placeholder (available:false)
+  AIPCTeaser.tsx       — Home page AIPC slim teaser (single image + CTA → /aipc, NO gallery)
+  SilverBot.tsx        — Jarvis-style floating AI chatbot widget (every page via layout.tsx)
+  Hero.tsx             — Home hero
+  HowItWorks.tsx       — Hybrid AI routing explainer
+  Pillars.tsx          — Core feature pillars
+  Pricing.tsx          — Free + Premium only (AIPC column replaced with Kickstarter teaser)
   SkillEconomyTeaser.tsx
-  MilestoneCard.tsx — Roadmap card
-  Orb.tsx / Orb3D.tsx — Animated 3D orb
+  MilestoneCard.tsx    — Roadmap card
+  Orb.tsx / Orb3D.tsx  — Animated 3D orb
   StatusBadge.tsx
   Waitlist.tsx
   Footer.tsx
+
+src/app/api/chat/route.ts   — Edge function: SilverBot AI backend (calls Groq)
+src/data/silverbot-knowledge.ts — SilverBot knowledge base — EDIT THIS to update what bot knows
+src/app/kickstarter/         — Pre-launch Kickstarter page (KickstarterClient.tsx)
 ```
 
 ## Images (public/images/)
@@ -86,7 +87,7 @@ All 8 AIPC concept renders are AI-generated (Midjourney/similar). Final hardware
 |---|---|---|
 | aipc-drone-solo.png | ✅ live | Studio product shot |
 | aipc-drone-user.png | ✅ live | Palm hover, scale reference |
-| aipc-drone-internal.png | ✅ live (⚠️ NEEDS REPLACEMENT) | Exploded view — current image uses wrong puck/disc shape, should be ring/toroid form |
+| aipc-drone-internal.png | ✅ live | Exploded view — ring/toroid form (replaced puck shape, commit 6d58a55) |
 | aipc-drone-outdoor.png | ✅ live | Outdoor GPS flight |
 | aipc-drone-lens.png | ✅ live | Camera lens close-up |
 | aipc-drone-pairing.png | ✅ live | Pairing with Silver Prime app |
@@ -110,11 +111,13 @@ All 8 AIPC concept renders are AI-generated (Midjourney/similar). Final hardware
 - Font: display font for headings, clean sans for body
 
 ## Pending work
-1. **Replace aipc-drone-internal.png** — ✅ DONE (committed 6d58a55). Ring/toroid form now correct.
-2. **Kickstarter plan** — ✅ DONE. Two documents created (NOT committed to git — private business docs):
-   - `KICKSTARTER_PLAN.md` — full business plan: Saudi Arabia HQ, $3–5M budget, facility, staffing, CEO/Co-CEO salaries, 14-tier reward structure, 5-year milestone budget
-   - `KICKSTARTER_CAMPAIGN_NARRATIVE.md` — campaign story, page copy, video script (90–120 sec founder-on-camera), 5-email pre-launch sequence, messaging pillars
-3. **Next steps for Kickstarter:** Founder bio details, campaign video shoot, page design brief, pre-launch email list building
+1. **Kickstarter campaign page — full build** — build out `/kickstarter` with finalised pricing tiers, countdown timer to launch, email backend (Mailchimp/ConvertKit/Supabase). Feature branch: `feature/kickstarter-full`
+2. **Email backend** — wire /kickstarter and /#waitlist forms to a real email capture service
+3. **Founder bios** — add real names/backgrounds to `KICKSTARTER_CAMPAIGN_NARRATIVE.md`
+4. **Saudi Arabia company setup** — KAEC contact, legal counsel for LLC formation
+
+## Netlify environment variables
+- `GROQ_API_KEY` — set as secret. Powers SilverBot AI chatbot at /api/chat
 
 ## Git workflow (IMPORTANT — follow every session)
 - **Never commit directly to `main`**
@@ -140,5 +143,9 @@ When the user types `/checkpoint`, do ALL of the following:
 - No custom token — Solana marketplace uses $SOL only
 - Pro APK channel (Stage 6) comes before marketplace (Stage 7) — marketplace is Pro-only due to Play Store policy
 - All AIPC images marked `available: true` as of commit e74cf29
-- AIPC shoulder platform added as separate $49 accessory (commit da8b7be)
+- AIPC shoulder platform — $49 add-on (magnetic harness, wireless charging)
+- **AIPC pricing removed from site** — held until Kickstarter campaign finalised (all pages point to /kickstarter)
+- Kickstarter-only funding — no VC, no angels, no grants
+- Saudi Arabia single permanent HQ — Vision 2030, 0% personal tax
+- SilverBot chatbot added — Groq-powered, knowledge base in `src/data/silverbot-knowledge.ts`
 - Netlify auto-deploys from `main` branch on push
