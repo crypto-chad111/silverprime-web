@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 type Message = { role: "user" | "assistant"; content: string };
 type OrbState = "idle" | "thinking";
+type EdgePos = { x: number; y: number; edge: "right" | "bottom" };
 
 // ─── Proactive messages (rotate on each visit) ────────────────────────────────
 
@@ -16,6 +17,33 @@ const PROACTIVE_MESSAGES = [
   "Curious about the Kickstarter campaign?",
   "Want to know what's shipped vs. planned?",
 ];
+
+// ─── Floating position helpers ────────────────────────────────────────────────
+
+const ORB_SIZE = 52;
+const EDGE_PAD = 24; // gap from viewport edge
+const DRIFT_MS = 28000; // drift every 28 seconds
+
+/**
+ * Returns ~6 rest positions along the right and bottom edges of the viewport.
+ * On mobile (<768 px wide) returns a single bottom-right position so the orb
+ * never obstructs small-screen content.
+ */
+function getEdgePositions(vw: number, vh: number): EdgePos[] {
+  if (vw < 768) {
+    return [
+      { x: vw - ORB_SIZE - EDGE_PAD, y: vh - ORB_SIZE - EDGE_PAD, edge: "bottom" },
+    ];
+  }
+  return [
+    { x: vw - ORB_SIZE - EDGE_PAD, y: Math.round(vh * 0.18), edge: "right" },
+    { x: vw - ORB_SIZE - EDGE_PAD, y: Math.round(vh * 0.40), edge: "right" },
+    { x: vw - ORB_SIZE - EDGE_PAD, y: Math.round(vh * 0.62), edge: "right" },
+    { x: vw - ORB_SIZE - EDGE_PAD, y: Math.round(vh * 0.82), edge: "right" },
+    { x: Math.round(vw * 0.60), y: vh - ORB_SIZE - EDGE_PAD, edge: "bottom" },
+    { x: Math.round(vw * 0.35), y: vh - ORB_SIZE - EDGE_PAD, edge: "bottom" },
+  ];
+}
 
 // ─── Jarvis-style SVG Orb ─────────────────────────────────────────────────────
 
@@ -209,6 +237,52 @@ export function SilverBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // ── Floating position state ─────────────────────────────────────────────────
+  const [edgePositions, setEdgePositions] = useState<EdgePos[]>([]);
+  const [posIdx, setPosIdx] = useState(3); // start near bottom-right (index 3 = 82% down right edge)
+  const [viewportHeight, setViewportHeight] = useState(900);
+  const [ready, setReady] = useState(false);
+  const [driftEnabled, setDriftEnabled] = useState(false);
+
+  // Current rest position — default to off-screen until client-side init
+  const currentPos: EdgePos =
+    edgePositions.length > 0
+      ? edgePositions[posIdx % edgePositions.length]
+      : { x: 9999, y: 9999, edge: "bottom" };
+
+  // Opening direction: if the orb is high on screen, chat opens DOWNWARD to avoid clipping
+  // Threshold: need at least chatHeight (min 480) + 12px gap below current y
+  const chatMaxHeight = Math.min(480, viewportHeight - 120);
+  const openDownward = currentPos.y < chatMaxHeight + 16;
+
+  // ── Init positions & resize handler ────────────────────────────────────────
+  useEffect(() => {
+    const compute = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      setViewportHeight(vh);
+      setEdgePositions(getEdgePositions(vw, vh));
+    };
+    compute();
+    setReady(true);
+    // Enable drift after orb has settled into its initial position
+    const t = setTimeout(() => setDriftEnabled(true), 600);
+    window.addEventListener("resize", compute);
+    return () => {
+      window.removeEventListener("resize", compute);
+      clearTimeout(t);
+    };
+  }, []);
+
+  // ── Drift interval — advances position every 28 s when chat is closed ───────
+  useEffect(() => {
+    if (!driftEnabled || isOpen || edgePositions.length <= 1) return;
+    const id = setInterval(() => {
+      setPosIdx((p) => (p + 1) % edgePositions.length);
+    }, DRIFT_MS);
+    return () => clearInterval(id);
+  }, [driftEnabled, isOpen, edgePositions.length]);
+
   // ── Proactive thought bubble ────────────────────────────────────────────────
   useEffect(() => {
     const dismissed = sessionStorage.getItem("silverbot-bubble-dismissed");
@@ -217,14 +291,11 @@ export function SilverBot() {
     const idx = Math.floor(Date.now() / 86400000) % PROACTIVE_MESSAGES.length;
     setBubbleMsg(PROACTIVE_MESSAGES[idx]);
 
-    const showTimer = setTimeout(() => {
-      setShowBubble(true);
-    }, 7000); // show after 7s
-
+    const showTimer = setTimeout(() => setShowBubble(true), 7000);
     const hideTimer = setTimeout(() => {
       setShowBubble(false);
       sessionStorage.setItem("silverbot-bubble-dismissed", "1");
-    }, 20000); // auto-hide after 20s
+    }, 20000);
 
     return () => {
       clearTimeout(showTimer);
@@ -234,16 +305,12 @@ export function SilverBot() {
 
   // ── Scroll to latest message ────────────────────────────────────────────────
   useEffect(() => {
-    if (isOpen) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
+    if (isOpen) messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isOpen]);
 
   // ── Focus input on open ─────────────────────────────────────────────────────
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 120);
-    }
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 120);
   }, [isOpen]);
 
   // ── Open chat (dismiss bubble) ──────────────────────────────────────────────
@@ -271,7 +338,6 @@ export function SilverBot() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: next }),
       });
-
       if (!res.ok) throw new Error("API error");
       const { reply } = await res.json();
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
@@ -297,27 +363,65 @@ export function SilverBot() {
     }
   };
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
+  // Render
+  //
+  // Structure:
+  //   motion.div  ← floating anchor (52×52, position: fixed, translated to currentPos)
+  //     │
+  //     ├─ motion.div  ← chat window   (position: absolute, opens above or below orb)
+  //     ├─ motion.button ← thought bubble (position: absolute, always above orb)
+  //     └─ motion.button ← orb launcher  (position: absolute at 0,0 within anchor)
+  //
+  // The motion.div uses Framer Motion's x/y transforms (GPU-accelerated) from a
+  // base of left:0 / top:0, so children's absolute offsets track the visual position.
+  // ─────────────────────────────────────────────────────────────────────────────
+
   return (
-    <div
-      className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3"
-      style={{ pointerEvents: "none" }}
+    <motion.div
+      style={{
+        position: "fixed",
+        left: 0,
+        top: 0,
+        width: ORB_SIZE,
+        height: ORB_SIZE,
+        zIndex: 50,
+        pointerEvents: "none",
+        overflow: "visible",
+        opacity: ready ? 1 : 0,
+      }}
+      animate={{ x: currentPos.x, y: currentPos.y }}
+      transition={
+        driftEnabled
+          ? { duration: 3, ease: [0.45, 0, 0.55, 1] }
+          : { duration: 0 }
+      }
     >
       {/* ── Chat Window ── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.88, y: 16 }}
+            initial={{ opacity: 0, scale: 0.88, y: openDownward ? -16 : 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.88, y: 16 }}
+            exit={{ opacity: 0, scale: 0.88, y: openDownward ? -16 : 16 }}
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
             className="rounded-2xl overflow-hidden flex flex-col"
             style={{
+              position: "absolute",
+              // Opens upward unless the orb is in the upper portion of the viewport
+              ...(openDownward
+                ? { top: ORB_SIZE + 12 }   // 12 px gap below orb
+                : { bottom: ORB_SIZE + 12 } // 12 px gap above orb
+              ),
+              // Always anchor to the right edge of the orb container;
+              // the 340 px width extends leftward toward viewport center.
+              right: 0,
               width: "min(340px, calc(100vw - 48px))",
-              height: "min(480px, calc(100vh - 120px))",
+              height: `min(${chatMaxHeight}px, calc(100vh - 120px))`,
               background: "rgba(14,14,18,0.96)",
               border: "1px solid rgba(124,92,255,0.28)",
-              boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,92,255,0.1)",
+              boxShadow:
+                "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,92,255,0.1)",
               backdropFilter: "blur(20px)",
               pointerEvents: "all",
             }}
@@ -326,14 +430,17 @@ export function SilverBot() {
             <div
               className="flex items-center justify-between px-4 py-3 shrink-0"
               style={{
-                background: "linear-gradient(135deg, rgba(124,92,255,0.15) 0%, rgba(14,14,18,0.8) 100%)",
+                background:
+                  "linear-gradient(135deg, rgba(124,92,255,0.15) 0%, rgba(14,14,18,0.8) 100%)",
                 borderBottom: "1px solid rgba(124,92,255,0.15)",
               }}
             >
               <div className="flex items-center gap-2.5">
                 <SilverBotOrb state={orbState} size={28} />
                 <div>
-                  <p className="text-sm font-semibold text-silver-100 leading-none">SilverBot</p>
+                  <p className="text-sm font-semibold text-silver-100 leading-none">
+                    SilverBot
+                  </p>
                   <p className="text-[10px] text-silver-500 mt-0.5">
                     {isLoading ? "Thinking…" : "Silver Prime assistant"}
                   </p>
@@ -345,7 +452,12 @@ export function SilverBot() {
                 aria-label="Close chat"
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                  <path d="M12.5 4.5l-8 8M4.5 4.5l8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+                  <path
+                    d="M12.5 4.5l-8 8M4.5 4.5l8 8"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </button>
             </div>
@@ -355,7 +467,9 @@ export function SilverBot() {
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex ${
+                    msg.role === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
                   {msg.role === "assistant" && (
                     <div className="mr-2 mt-1 shrink-0">
@@ -371,7 +485,8 @@ export function SilverBot() {
                     style={
                       msg.role === "user"
                         ? {
-                            background: "linear-gradient(135deg, rgba(124,92,255,0.85), rgba(100,72,230,0.85))",
+                            background:
+                              "linear-gradient(135deg, rgba(124,92,255,0.85), rgba(100,72,230,0.85))",
                           }
                         : {
                             background: "rgba(255,255,255,0.05)",
@@ -379,7 +494,6 @@ export function SilverBot() {
                           }
                     }
                   >
-                    {/* Render newlines as line breaks */}
                     {msg.content.split("\n").map((line, j) => (
                       <span key={j}>
                         {line}
@@ -452,7 +566,12 @@ export function SilverBot() {
                   onClick={sendMessage}
                   disabled={!input.trim() || isLoading}
                   className="shrink-0 rounded-lg p-1.5 transition disabled:opacity-30"
-                  style={{ background: input.trim() && !isLoading ? "rgba(124,92,255,0.8)" : "transparent" }}
+                  style={{
+                    background:
+                      input.trim() && !isLoading
+                        ? "rgba(124,92,255,0.8)"
+                        : "transparent",
+                  }}
                   aria-label="Send"
                 >
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -467,14 +586,15 @@ export function SilverBot() {
                 </button>
               </div>
               <p className="text-center text-[10px] text-silver-700 mt-1.5">
-                AI responses may not be 100% accurate — always verify specs on the product pages.
+                AI responses may not be 100% accurate — always verify specs on
+                the product pages.
               </p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ── Thought Bubble ── */}
+      {/* ── Thought Bubble — always appears above the orb ── */}
       <AnimatePresence>
         {showBubble && !isOpen && (
           <motion.button
@@ -485,17 +605,22 @@ export function SilverBot() {
             onClick={handleOpen}
             className="relative rounded-2xl rounded-br-sm px-4 py-2.5 text-sm font-medium text-silver-100 text-left"
             style={{
+              position: "absolute",
+              bottom: ORB_SIZE + 12, // always above the orb
+              right: 0,
               background: "rgba(14,14,18,0.95)",
               border: "1px solid rgba(124,92,255,0.35)",
-              boxShadow: "0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,92,255,0.08)",
+              boxShadow:
+                "0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(124,92,255,0.08)",
               backdropFilter: "blur(16px)",
               maxWidth: "220px",
+              whiteSpace: "nowrap",
               pointerEvents: "all",
             }}
             aria-label="Open SilverBot chat"
           >
             {bubbleMsg}
-            {/* Tail triangle */}
+            {/* Tail triangle pointing down toward the orb */}
             <span
               className="absolute -bottom-2 right-5"
               style={{
@@ -530,12 +655,22 @@ export function SilverBot() {
           y: { duration: 3.5, repeat: Infinity, ease: "easeInOut" },
           scale: { type: "spring", stiffness: 400, damping: 20 },
         }}
-        className="relative rounded-full"
         style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
           pointerEvents: "all",
           filter: "drop-shadow(0 0 12px rgba(124,92,255,0.5))",
+          background: "none",
+          border: "none",
+          padding: 0,
+          cursor: "pointer",
         }}
-        aria-label={isOpen ? "Close SilverBot" : "Open SilverBot — ask about Silver Prime"}
+        aria-label={
+          isOpen
+            ? "Close SilverBot"
+            : "Open SilverBot — ask about Silver Prime"
+        }
       >
         <SilverBotOrb state={orbState} size={52} />
 
@@ -547,6 +682,6 @@ export function SilverBot() {
           />
         )}
       </motion.button>
-    </div>
+    </motion.div>
   );
 }
