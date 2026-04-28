@@ -9,6 +9,7 @@ const links = [
   { href: "/roadmap", label: "Roadmap" },
   { href: "/why", label: "Why it's different" },
   { href: "/aipc", label: "AIPC" },
+  { href: "/kickstarter", label: "Kickstarter 🚀" },
   { href: "/download", label: "Download" },
 ];
 
