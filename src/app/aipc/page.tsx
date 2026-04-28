@@ -3,44 +3,36 @@ import { Footer } from "@/components/Footer";
 import { MilestoneCard } from "@/components/MilestoneCard";
 import { AIPCGallery, type GallerySlot } from "@/components/AIPCGallery";
 import { lanes } from "../../../content/roadmap";
+import Link from "next/link";
 
 export const metadata = {
   title: "AIPC Drone — Silver Prime",
   description:
-    "The Silver Prime AIPC is a palm-sized AI companion drone. No separate app, no separate AI — your phone is the brain. Specs, pricing, gallery, and hardware roadmap.",
+    "The Silver Prime AIPC is a ring-form AI companion drone. No separate app, no separate AI — your phone is the brain. Gallery, capabilities, specs, and hardware roadmap.",
 };
 
 const gallerySlots: GallerySlot[] = [
-  { src: "/images/aipc-drone-solo.png",         label: "AIPC — studio product shot",                    available: true  },
-  { src: "/images/aipc-drone-user.png",         label: "AIPC — palm hover, scale reference",            available: true  },
-  { src: "/images/aipc-drone-internal.png",     label: "AIPC — internal components exploded",           available: true  },
-  { src: "/images/aipc-drone-outdoor.png",      label: "AIPC — outdoor GPS flight",                     available: true  },
-  { src: "/images/aipc-drone-lens.png",         label: "AIPC — camera lens close-up",                   available: true  },
-  { src: "/images/aipc-drone-pairing.png",      label: "AIPC — pairing with Silver Prime app",          available: true  },
-  { src: "/images/aipc-shoulder-charging.png",  label: "AIPC — landed and charging on shoulder platform", available: true  },
-  { src: "/images/aipc-shoulder-flight.png",    label: "AIPC — active scan, shoulder platform visible",   available: true  },
+  { src: "/images/aipc-drone-solo.png",         label: "AIPC — studio product shot",                      available: true },
+  { src: "/images/aipc-drone-user.png",         label: "AIPC — palm hover, scale reference",              available: true },
+  { src: "/images/aipc-drone-internal.png",     label: "AIPC — internal components exploded",             available: true },
+  { src: "/images/aipc-drone-outdoor.png",      label: "AIPC — outdoor GPS flight",                       available: true },
+  { src: "/images/aipc-drone-lens.png",         label: "AIPC — camera lens close-up",                     available: true },
+  { src: "/images/aipc-drone-pairing.png",      label: "AIPC — pairing with Silver Prime app",            available: true },
+  { src: "/images/aipc-shoulder-charging.png",  label: "AIPC — landed and charging on shoulder platform", available: true },
+  { src: "/images/aipc-shoulder-flight.png",    label: "AIPC — active scan, shoulder platform visible",   available: true },
 ];
 
 const specs = [
-  { label: "Weight",       value: "< 250 g — no FAA registration required (US)" },
-  { label: "Diameter",     value: "~130 mm carbon composite disc body" },
-  { label: "Flight time",  value: "10–15 minutes per charge" },
-  { label: "Connectivity", value: "Wi-Fi Direct — connects to your phone, no router needed" },
-  { label: "Camera",       value: "HD · RTSP stream direct to Silver Prime app" },
-  { label: "Audio",        value: "Microphone array + speaker built in" },
-  { label: "Navigation",   value: "GPS outdoor position hold · altitude hold indoors · return-to-home" },
-  { label: "Compute",          value: "Onboard Linux SBC (flight control + Wi-Fi Direct) · AI runs on your phone" },
+  { label: "Weight",            value: "< 250 g — no FAA registration required (US)" },
+  { label: "Diameter",          value: "~130 mm ring/toroid form" },
+  { label: "Flight time",       value: "10–15 minutes per charge" },
+  { label: "Connectivity",      value: "Wi-Fi Direct — connects to your phone, no router needed" },
+  { label: "Camera",            value: "HD · RTSP stream direct to Silver Prime app" },
+  { label: "Audio",             value: "Microphone array + speaker built in" },
+  { label: "Navigation",        value: "GPS outdoor position hold · altitude hold indoors · return-to-home" },
+  { label: "Compute",           value: "Onboard Linux SBC (flight control + Wi-Fi Direct) · AI runs on your phone" },
   { label: "Shoulder Platform", value: "Magnetic landing pad · wireless charging · USB-C backup · slim carbon fibre cross-body harness · fits all sizes" },
-  { label: "Availability",     value: "Estimated Q1 2027 — waitlist only during early bird phase" },
-];
-
-const pricingRows = [
-  { tier: "Waitlist / Early Bird", price: "$149", detail: "First 200 units · ships Q1 2027", highlight: true },
-  { tier: "Standard Retail",       price: "$199", detail: "130 mm carbon frame · GPS · HD camera · speaker/mic", highlight: false },
-  { tier: "Pro Bundle",            price: "$249", detail: "Includes spare battery + carry case", highlight: false },
-  { tier: "Shoulder Platform",     price: "$49",  detail: "Magnetic landing pad · wireless charging · fits all harness sizes", highlight: false },
-  { tier: "Full Kit Bundle",       price: "$289", detail: "Pro drone + shoulder platform + Silver Prime Premium", highlight: false },
-  { tier: "App + Drone Bundle",    price: "$259", detail: "Pro drone + Silver Prime Premium (save $5)", highlight: false },
+  { label: "Availability",      value: "Estimated Q1 2027" },
 ];
 
 const capabilities = [
@@ -51,8 +43,8 @@ const capabilities = [
   },
   {
     icon: "🌀",
-    title: "Invisible rotors, clean form",
-    body: "Circular disc body. Four rotors hidden inside — only oval airflow vents are visible on the exterior. Fits in the palm of your hand. Under 250 g so no FAA registration is required for recreational use in the US.",
+    title: "Ring form — built to live with you",
+    body: "Four rotors hidden inside oval vents around the circumference. Large hollow centre, camera flush on the equator rim. Fits in the palm of your hand. Under 250 g so no FAA registration is required for recreational use in the US.",
   },
   {
     icon: "📡",
@@ -77,7 +69,7 @@ const capabilities = [
   {
     icon: "🎯",
     title: "Hands-free launch and return",
-    body: "The shoulder platform harness sits snug across your chest — slim carbon fibre and brushed aluminium, not a gear rack. The AIPC lifts off on command and returns to the magnetic charging pad on your shoulder when done. Wireless charging kicks in the moment it lands. USB-C backup keeps you topped up on the go.",
+    body: "The shoulder platform harness sits snug across your chest — slim carbon fibre, not a gear rack. The AIPC lifts on command and returns to the magnetic charging pad on your shoulder when done. Wireless charging kicks in the moment it lands.",
   },
 ];
 
@@ -97,7 +89,7 @@ export default function AIPCPage() {
               <span className="shimmer-text">Now it can fly.</span>
             </h1>
             <p className="mt-6 text-lg text-silver-300 max-w-xl text-pretty">
-              The AIPC is a palm-sized AI companion drone. Silver Prime on your phone <em>is</em> the
+              The AIPC is a ring-form AI companion drone. Silver Prime on your phone <em>is</em> the
               brain — the drone is your eyes, ears, and voice in the physical world. No separate app.
               No separate AI. No subscription.
             </p>
@@ -107,15 +99,14 @@ export default function AIPCPage() {
           </span>
         </div>
 
-        {/* Stats strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        {/* Stats strip — no pricing, specs only */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {[
-            { value: "<250 g",      label: "No FAA registration" },
-            { value: "10–15 min",   label: "Flight time" },
-            { value: "Wi-Fi Direct",label: "No router needed" },
-            { value: "$149",        label: "Early bird price" },
-            { value: "HD Camera",   label: "RTSP to Silver Prime" },
-            { value: "Q1 2027",     label: "Estimated ship date" },
+            { value: "< 250 g",      label: "No FAA registration" },
+            { value: "10–15 min",    label: "Flight time" },
+            { value: "Wi-Fi Direct", label: "No router needed" },
+            { value: "HD Camera",    label: "RTSP to Silver Prime" },
+            { value: "Q1 2027",      label: "Estimated ship date" },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl glass p-4 text-center">
               <p className="text-xl font-semibold text-silver-100 mb-1">{s.value}</p>
@@ -170,75 +161,10 @@ export default function AIPCPage() {
                 i < specs.length - 1 ? "border-b border-silver-800/60" : "",
               ].join(" ")}
             >
-              <span className="text-silver-500 shrink-0 sm:w-32">{s.label}</span>
+              <span className="text-silver-500 shrink-0 sm:w-36">{s.label}</span>
               <span className="text-silver-200">{s.value}</span>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* ── Pricing ── */}
-      <section className="mx-auto max-w-6xl px-6 pb-24">
-        <div className="mb-10">
-          <p className="mb-3 text-xs uppercase tracking-widest text-warn">Pricing</p>
-          <h2 className="font-display text-3xl md:text-4xl font-semibold silver-text tracking-tight">
-            One purchase. No subscription.
-          </h2>
-          <p className="mt-3 text-silver-400 max-w-xl">
-            Early bird pricing is guaranteed for waitlist members who confirm their spot.
-            All prices are preliminary estimates subject to change.
-          </p>
-        </div>
-
-        <div className="rounded-2xl overflow-hidden border border-silver-800 mb-6">
-          {pricingRows.map((row, i) => (
-            <div
-              key={row.tier}
-              className={[
-                "flex items-center justify-between gap-4 px-6 py-4 text-sm",
-                i < pricingRows.length - 1 ? "border-b border-silver-800" : "",
-                row.highlight ? "bg-warn/8" : "",
-              ].join(" ")}
-            >
-              <div>
-                <p className={`font-medium ${row.highlight ? "text-warn" : "text-silver-200"}`}>
-                  {row.tier}
-                </p>
-                <p className="text-xs text-silver-500 mt-0.5">{row.detail}</p>
-              </div>
-              <span className={`text-lg font-semibold whitespace-nowrap ${row.highlight ? "text-warn" : "text-silver-100"}`}>
-                {row.price}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Bundle callout */}
-        <div
-          className="rounded-2xl glass p-6 flex flex-col sm:flex-row items-center justify-between gap-4"
-          style={{ border: "1px solid rgba(124,92,255,0.25)" }}
-        >
-          <div className="flex items-center gap-4">
-            <span className="text-2xl">🏆</span>
-            <div>
-              <p className="font-semibold text-silver-100">Best value: Full Kit Bundle</p>
-              <p className="text-sm text-silver-400 mt-0.5">
-                Pro drone + shoulder platform + Silver Prime Premium — everything in one.
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 shrink-0">
-            <div className="text-right">
-              <p className="text-2xl font-semibold silver-text">$289</p>
-              <p className="text-xs text-silver-500">bundle price</p>
-            </div>
-            <a
-              href="/#waitlist"
-              className="rounded-full bg-silver-grad px-5 py-2.5 text-sm font-semibold text-bg shadow-glow hover:brightness-110 transition whitespace-nowrap"
-            >
-              Reserve now
-            </a>
-          </div>
         </div>
       </section>
 
@@ -263,7 +189,7 @@ export default function AIPCPage() {
             <span className="rounded-full glass px-3 py-1">{"< 250 g · no FAA registration (US)"}</span>
             <span className="rounded-full glass px-3 py-1">Wi-Fi Direct · no router needed</span>
             <span className="rounded-full glass px-3 py-1">HD camera · mic + speaker</span>
-            <span className="rounded-full glass px-3 py-1">Early bird $149 · Standard $199</span>
+            <span className="rounded-full glass px-3 py-1">Pricing via Kickstarter campaign</span>
           </div>
         </div>
 
@@ -274,11 +200,11 @@ export default function AIPCPage() {
         </div>
 
         <p className="mt-6 text-xs text-silver-600">
-          Hardware phases are indicative only. No dates are committed. All prices are preliminary estimates.
+          Hardware phases are indicative only. No dates are committed. Pricing to be confirmed with the Kickstarter campaign.
         </p>
       </section>
 
-      {/* ── Waitlist CTA ── */}
+      {/* ── Pricing CTA — Kickstarter ── */}
       <section className="mx-auto max-w-6xl px-6 pb-32">
         <div
           className="rounded-2xl p-10 text-center"
@@ -287,21 +213,30 @@ export default function AIPCPage() {
             border: "1px solid rgba(251,191,36,0.2)",
           }}
         >
-          <p className="mb-3 text-xs uppercase tracking-widest text-warn">Limited early bird</p>
+          <p className="mb-3 text-xs uppercase tracking-widest text-warn">Pricing · Coming Soon</p>
           <h2 className="font-display text-3xl md:text-4xl font-semibold silver-text tracking-tight mb-3">
-            First 200 units. $149.
+            Pricing confirmed at Kickstarter launch.
           </h2>
           <p className="text-silver-400 max-w-lg mx-auto mb-8">
-            Join the waitlist to lock in the early bird price. You&apos;ll be notified first when
-            pre-orders open — no commitment required to join.
+            We&apos;re finalising hardware pricing as part of the Kickstarter campaign.
+            Join the waitlist now — waitlist members will be notified first and guaranteed
+            access to early backer pricing when the campaign goes live.
           </p>
-          <a
-            href="/#waitlist"
-            className="inline-block rounded-full px-8 py-3.5 text-sm font-semibold text-bg transition hover:brightness-110 shadow-glow"
-            style={{ background: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)" }}
-          >
-            Reserve my early bird spot
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/kickstarter"
+              className="inline-block rounded-full px-8 py-3.5 text-sm font-semibold text-bg transition hover:brightness-110 shadow-glow"
+              style={{ background: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)" }}
+            >
+              Join the Kickstarter waitlist →
+            </Link>
+            <a
+              href="/#waitlist"
+              className="inline-block rounded-full glass px-8 py-3.5 text-sm font-semibold text-silver-100 hover:bg-bg-raised transition"
+            >
+              Join the app waitlist
+            </a>
+          </div>
         </div>
       </section>
 
