@@ -125,6 +125,16 @@ All 8 AIPC concept renders are AI-generated (Midjourney/similar). Final hardware
 - Delete the sandbox branch after merge
 - Auto-generated `claude/*` branches are throwaway sandboxes — delete them after use
 
+## /checkpoint command
+When the user types `/checkpoint`, do ALL of the following:
+1. Run `git log --oneline -10` to get recent commits
+2. Review all changed/new files since last checkpoint
+3. Update `SESSION_CHECKPOINT.md` — new commits table, updated file status, revised pending work
+4. Update `CLAUDE.md` pending work section if anything changed
+5. Commit both files directly to `main` with message: `chore: session checkpoint [date]`
+6. Push to origin/main
+7. Confirm to user: "Checkpoint saved and pushed ✅"
+
 ## Key decisions / history
 - Android-only (iOS cancelled, not deferred)
 - No custom token — Solana marketplace uses $SOL only
