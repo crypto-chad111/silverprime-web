@@ -26,22 +26,6 @@ const premiumFeatures = [
   "All future Premium features — forever",
 ];
 
-const droneRows = [
-  { tier: "Waitlist / Early Bird", price: "$149", detail: "First 200 units · ships Q1 2027", highlight: true },
-  { tier: "Standard Retail",       price: "$199", detail: "130 mm carbon frame · GPS · HD camera · speaker/mic", highlight: false },
-  { tier: "Pro Bundle",            price: "$249", detail: "Includes spare battery + carry case", highlight: false },
-  { tier: "App + Drone Bundle",    price: "$259", detail: "Pro drone + Silver Prime Premium (save $5)", highlight: false },
-];
-
-const droneSpecs = [
-  { label: "Weight",         value: "< 250 g — no FAA registration required (US)" },
-  { label: "Flight time",    value: "10–15 minutes" },
-  { label: "Connectivity",   value: "Wi-Fi Direct — no router needed" },
-  { label: "Camera",         value: "HD · RTSP stream direct to your phone" },
-  { label: "Audio",          value: "Microphone + speaker built in" },
-  { label: "Navigation",     value: "GPS outdoor position hold + return-to-home" },
-  { label: "Availability",   value: "Estimated Q1 2027" },
-];
 
 export function Pricing() {
   return (
@@ -156,58 +140,44 @@ export function Pricing() {
             className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 rounded-full"
             style={{ background: "radial-gradient(circle, rgba(251,191,36,0.08) 0%, transparent 70%)" }}
           />
-          <p className="text-xs uppercase tracking-widest text-warn mb-2">Hardware · AIPC Drone</p>
+          <p className="text-xs uppercase tracking-widest text-warn mb-2">Hardware · Coming 2027</p>
+          <h3 className="text-lg font-semibold text-silver-100 mb-1">AIPC Drone</h3>
           <div className="flex items-end gap-2 mb-1">
             <span className="font-display text-5xl font-semibold silver-text">$149</span>
             <span className="text-silver-400 mb-1">early bird</span>
           </div>
           <p className="text-xs text-silver-500 mb-6">$199 standard retail · Q1 2027</p>
 
-          {/* Pricing table */}
-          <div className="mb-5 rounded-xl overflow-hidden border border-silver-800">
-            {droneRows.map((row, i) => (
-              <div
-                key={row.tier}
-                className={[
-                  "flex items-center justify-between gap-3 px-4 py-3 text-sm",
-                  i < droneRows.length - 1 ? "border-b border-silver-800" : "",
-                  row.highlight ? "bg-warn/8" : "",
-                ].join(" ")}
-              >
-                <div>
-                  <p className={`font-medium ${row.highlight ? "text-warn" : "text-silver-200"}`}>
-                    {row.tier}
-                  </p>
-                  <p className="text-xs text-silver-500 mt-0.5">{row.detail}</p>
-                </div>
-                <span className={`font-semibold whitespace-nowrap ${row.highlight ? "text-warn" : "text-silver-100"}`}>
-                  {row.price}
-                </span>
-              </div>
+          <ul className="space-y-3 mb-8 flex-1">
+            {[
+              "Ring-form AI companion drone — < 250 g",
+              "Your phone IS the AI brain, no separate app",
+              "HD camera · Wi-Fi Direct · mic + speaker",
+              "Shoulder platform harness (+$49)",
+              "No subscription — ever",
+            ].map((f) => (
+              <li key={f} className="flex items-start gap-3 text-sm text-silver-300">
+                <span className="text-warn mt-0.5 shrink-0">◆</span>
+                {f}
+              </li>
             ))}
+          </ul>
+
+          <div className="space-y-3">
+            <a
+              href="/#waitlist"
+              className="block text-center rounded-full px-6 py-3 text-sm font-semibold text-bg transition hover:brightness-110"
+              style={{ background: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)" }}
+            >
+              Reserve early bird spot
+            </a>
+            <a
+              href="/aipc"
+              className="block text-center rounded-full glass px-6 py-3 text-sm font-medium text-warn hover:text-silver-100 transition"
+            >
+              Full specs, gallery &amp; pricing →
+            </a>
           </div>
-
-          {/* Key specs */}
-          <div className="mb-6 space-y-1.5 flex-1">
-            {droneSpecs.map((s) => (
-              <div key={s.label} className="flex gap-2 text-xs">
-                <span className="text-silver-500 shrink-0 w-24">{s.label}</span>
-                <span className="text-silver-300">{s.value}</span>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-xs text-silver-400 italic mb-6 leading-relaxed">
-            All AIPC drones ship with Silver Prime pre-installed. The app is the AI brain — the drone is the body. No subscription required.
-          </p>
-
-          <a
-            href="#waitlist"
-            className="block text-center rounded-full px-6 py-3 text-sm font-semibold text-bg transition hover:brightness-110"
-            style={{ background: "linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)" }}
-          >
-            Reserve early bird spot
-          </a>
         </motion.div>
       </div>
 
@@ -224,23 +194,23 @@ export function Pricing() {
           <span className="text-2xl">🏆</span>
           <div>
             <p className="font-semibold text-silver-100">
-              Best value: Drone + Premium
+              Best value: Full Kit Bundle
             </p>
             <p className="text-sm text-silver-400 mt-0.5">
-              Pro drone + Silver Prime Premium in one bundle — save $5 vs buying separately.
+              Pro drone + shoulder platform + Silver Prime Premium — everything in one.
             </p>
           </div>
         </div>
         <div className="flex items-center gap-4 shrink-0">
           <div className="text-right">
-            <p className="text-2xl font-semibold silver-text">$259</p>
+            <p className="text-2xl font-semibold silver-text">$289</p>
             <p className="text-xs text-silver-500">bundle price</p>
           </div>
           <a
-            href="#waitlist"
+            href="/aipc"
             className="rounded-full bg-silver-grad px-5 py-2.5 text-sm font-semibold text-bg shadow-glow hover:brightness-110 transition whitespace-nowrap"
           >
-            Get the bundle
+            See full details →
           </a>
         </div>
       </motion.div>
