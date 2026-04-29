@@ -1,54 +1,40 @@
 # Session Checkpoint
 **Project:** Silver Prime — AIPC Drone & Android AI Assistant
-**Last updated:** 2026-04-29 (Session 3)
+**Last updated:** 2026-04-29 (Session 4)
 **Repo:** https://github.com/crypto-chad111/silverprime-web
-**Live site:** https://silverprime.netlify.app
+**Live site:** https://silverprime.app (custom domain — purchased from Netlify, HTTPS active)
+**Fallback:** https://silverprime.netlify.app (still works)
 **Working directory:** C:\dev\SilverPrime-Web
 
 ---
 
-## What This Project Is
-
-**Silver Prime** is a freemium Android AI assistant (React Native 0.74, Android-only). Hybrid on-device AI (Phi-3-mini) + cloud fallback (Groq). "Hey Silver" wakeword, Whisper STT, encrypted persistent memory, context awareness via AccessibilityService. One-time Premium unlock ~$14.99. No subscription.
-
-**The website** (this repo) is the marketing/showcase site built in Next.js 14 App Router + TypeScript + Tailwind + Framer Motion. Auto-deploys to Netlify from the `main` branch.
-
-**AIPC Companion Drone** — ring/toroid-form drone (~130mm, <250g, Linux SBC, HD camera, Wi-Fi Direct). Phone IS the brain. Coming Q1 2027. Pricing TBD — held until Kickstarter.
-
-**Silver Prime Founders Club** — gated investor community platform. Firebase-backed. Routes under `/community` and `/admin`.
-
----
-
-## What Was Completed This Session (2026-04-29 Session 3)
+## What Was Completed This Session (2026-04-29 Session 4)
 
 | Commit | What Shipped |
 |---|---|
-| `99c0065` | Fix: admin DM query — removed orderBy to avoid missing Firestore composite index |
-| `c33170e` | Member DM inbox on My Profile — real-time messages from admin with "X new" badge |
-| `a01db2d` | Public profile page `/community/profile/[id]` · Private avatar guard in feed (no link if private) · Member DM reply input |
-| `483469d` | Fix: DM reply — static addDoc import, error handling |
+| `5c376ef` | Fix: admin sees full profile regardless of privacy setting; amber "🔒 Private profile" badge shown to admin |
+| `482a7e3` | Fix: "My Profile" link added to admin dashboard header |
+| `119dc1c` | Feat: "💬 View Feed" link in admin header; mark DMs read on open (unread dot clears) |
+| `c92b798` | Feat: admin gold ring in feed, admin bypasses privacy in feed, "💬 Message Admin" button for members, admin Messages inbox tab |
+| `ea12134` | Fix attempt: SilverBot chat — switched to position:fixed (broke chat — reverted next commit) |
+| `1aa8215` | Fix: SilverBot chat window — position:absolute with viewport-clamped coordinates; chat always fully on screen |
+| `7296845` | Feat: "Silver Prime" top-left links to `/` in admin dashboard, My Profile, and member profile headers |
 
-**Firestore rules updated this session (in Firebase Console):**
-- Profiles: admin can update any profile (fixes ban/approve silently failing)
-- Investments: admin can update any investment
-- Feed: verified non-banned members + admins can read/write
-- adminDms: members can create `from_member` direction DMs (replies)
+**Domain purchased this session:**
+- `silverprime.app` purchased via Netlify ($16.99/yr) — zero DNS config needed
+- HTTPS SSL auto-provisioned and confirmed working
+- Firebase Auth: `silverprime.app` must be added to Authorized Domains in Firebase Console
 
 **Tested and confirmed working:**
-- ✅ Signup flow end-to-end
-- ✅ Feed real-time chat
-- ✅ Avatar/banner upload
-- ✅ Password change
-- ✅ Admin login (isAdmin check)
-- ✅ Admin dashboard: overview stats, pending queue, member table, search
-- ✅ Approve member → feed announcement posted
-- ✅ Ban / unban member
-- ✅ Admin → member DM
-- ✅ Member → admin DM reply (appears in admin dashboard thread)
-- ✅ Public profile page with avatar, banner, bio, tier, invested amount
-- ✅ Private profile page shows 🔒 anonymous backer + tier badge only
-- ✅ Feed avatar: public = clickable link, private = grey circle, not clickable
-- ✅ Netlify deploy working (secrets scanner bypassed with OMIT_VALUES env var)
+- ✅ All previous features still working
+- ✅ Admin can view private member profiles (full profile, not lock screen)
+- ✅ Admin gold ring visible in community feed
+- ✅ Members can message admin without waiting for admin to DM first
+- ✅ Admin Messages inbox tab — unread amber dot clears on open
+- ✅ "View Feed" and "My Profile" links in admin dashboard header
+- ✅ SilverBot chat opens correctly regardless of orb drift position
+- ✅ "Silver Prime" logo in all community/admin headers links back to `/`
+- ✅ `silverprime.app` live with HTTPS
 
 ---
 
@@ -72,11 +58,11 @@
 | `/community` | ✅ Live | Login + tier badge showcase + password reset |
 | `/community/signup` | ✅ Live | 3-step signup with proof upload |
 | `/community/pending` | ✅ Live | Pending approval waiting screen |
-| `/community/feed` | ✅ Live | Real-time chat, tier stats bar, privacy-aware avatars |
-| `/community/me` | ✅ Live | Profile editor, avatar/banner, investments, DM inbox + reply, password change |
-| `/community/profile/[id]` | ✅ Live | Public profile view; private shows anonymous backer |
+| `/community/feed` | ✅ Live | Real-time chat, tier stats bar, privacy-aware avatars, admin gold ring |
+| `/community/me` | ✅ Live | Profile editor, avatar/banner, investments, DM inbox + reply, password change; breadcrumb header |
+| `/community/profile/[id]` | ✅ Live | Public profile view; private shows anonymous backer; admin sees full profile |
 | `/admin` | ✅ Live | Admin login with isAdmin check |
-| `/admin/dashboard` | ✅ Live | Overview, pending queue, member table, ban/unban, DM thread |
+| `/admin/dashboard` | ✅ Live | Overview, pending queue, member table, ban/unban, DM thread, messages inbox, View Feed + My Profile links |
 | `/admin/recovery` | 🔲 TODO | Safe code lockout recovery |
 
 ---
@@ -85,11 +71,12 @@
 | Resource | Status | Notes |
 |---|---|---|
 | Project ID | `silverprime-founders` | Blaze plan |
-| Firestore | ✅ Live | eur3 europe-west, updated production rules |
+| Firestore | ✅ Live | eur3 europe-west, production rules active |
 | Storage | ✅ Live | US-CENTRAL1, production rules |
 | Auth | ✅ Live | Email/Password enabled |
+| Authorized domains | ⚠️ Action needed | Add `silverprime.app` in Firebase Console → Auth → Settings → Authorized domains |
 
-### Current Firestore Rules (as of this session)
+### Current Firestore Rules
 ```
 rules_version = '2';
 service cloud.firestore {
@@ -137,23 +124,32 @@ service cloud.firestore {
 
 ---
 
+## Domain & Hosting
+| Item | Status | Notes |
+|---|---|---|
+| `silverprime.app` | ✅ Live | Purchased via Netlify $16.99/yr, HTTPS auto-provisioned |
+| `silverprime.netlify.app` | ✅ Live | Original URL, still works as fallback |
+| Netlify auto-deploy | ✅ Live | Pushes to `main` → live in ~2 min |
+
+---
+
 ## Netlify Environment Variables
 | Variable | Status |
 |---|---|
 | `GROQ_API_KEY` | ✅ Set (secret) |
-| `NEXT_PUBLIC_FIREBASE_API_KEY` | ✅ Set (NOT secret) |
-| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | ✅ Set (NOT secret) |
-| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ✅ Set (NOT secret) |
-| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | ✅ Set (NOT secret) |
-| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | ✅ Set (NOT secret) |
-| `NEXT_PUBLIC_FIREBASE_APP_ID` | ✅ Set (NOT secret) |
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | ✅ Set |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | ✅ Set |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ✅ Set |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | ✅ Set |
+| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | ✅ Set |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | ✅ Set |
 | `SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES` | ✅ Set — bypasses AIza*** pattern scanner |
 | `ADMIN_SAFE_CODE` | ⚠️ NOT YET SET — needed for /admin/recovery |
 
 ---
 
-## Admin Account Setup
-Your real admin account is created and working. To verify in Firestore the profile doc should have:
+## Admin Account
+Your real admin account is created and working. Firestore profile doc has:
 - `isAdmin: true`
 - `isVerified: true`
 - `highestTierId: "lead-investor"`
@@ -163,15 +159,13 @@ Your real admin account is created and working. To verify in Firestore the profi
 
 ## Pending Work — Do This Next
 
-**1. `/admin/recovery`** — safe code lockout recovery
-- Admin enters `ADMIN_SAFE_CODE` passphrase + registered email → receives reset link
-- Agree on the passphrase, add `ADMIN_SAFE_CODE` to Netlify env vars
+**1. Add `silverprime.app` to Firebase Auth authorized domains**
+- Firebase Console → Authentication → Settings → Authorized domains → Add `silverprime.app`
+- Without this, login/signup on the custom domain will be blocked
 
-**2. Domain purchase + Netlify setup**
-- User is shopping on Namecheap
-- Top picks: `silverprime.ai` (best), `silverprime.app` (cheaper ~$16/yr)
-- Once purchased: Netlify → Site configuration → Domain management → Add custom domain
-- Point nameservers or add CNAME/A records as Netlify instructs
+**2. `/admin/recovery`** — safe code lockout recovery
+- Admin enters `ADMIN_SAFE_CODE` passphrase + registered email → receives reset link
+- Add `ADMIN_SAFE_CODE` to Netlify env vars
 
 **3. Kickstarter campaign page — full build**
 - Countdown timer, finalised tier pricing, email capture backend
@@ -189,12 +183,13 @@ Your real admin account is created and working. To verify in Firestore the profi
 | AIPC pricing held | Not published until Kickstarter campaign finalised |
 | HQ location | TBD — Saudi Arabia high on list but private until finalised |
 | Kickstarter-only funding | No VC, no angels, no grants |
-| Firebase (not Supabase) | User already had Firebase account; Supabase project was paused >90 days |
+| Firebase (not Supabase) | User already had Firebase account |
 | Founders Club = /community | Same domain, not separate |
 | Platform name | Silver Prime Founders Club |
 | Admin safe code | Agreed privately at build time, stored only as Netlify env var `ADMIN_SAFE_CODE` |
 | Firebase API keys | NOT secret — protected by security rules + authorized domains |
 | SilverBot knowledge base | `src/data/silverbot-knowledge.ts` — edit to update AI answers |
+| Domain | `silverprime.app` via Netlify — $16.99/yr, zero DNS config |
 
 ---
 
