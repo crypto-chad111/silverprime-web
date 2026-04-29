@@ -68,8 +68,10 @@ export function ProfilePageClient({ uid }: { uid: string }) {
 
   if (!profile) return null;
 
-  // Private profile — show minimal info only
-  if (!profile.isPublic) {
+  const viewerIsAdmin = authState.status === "authenticated" && authState.profile.isAdmin;
+
+  // Private profile — show minimal info to regular members, full info to admins
+  if (!profile.isPublic && !viewerIsAdmin) {
     return (
       <PageShell>
         <div className="max-w-md mx-auto text-center py-16 flex flex-col items-center gap-4">
@@ -90,7 +92,7 @@ export function ProfilePageClient({ uid }: { uid: string }) {
     );
   }
 
-  // Public profile
+  // Full profile (public members, or any profile viewed by admin)
   return (
     <PageShell>
       <div className="max-w-2xl mx-auto">
@@ -131,6 +133,12 @@ export function ProfilePageClient({ uid }: { uid: string }) {
 
             <div className="flex items-center gap-3 flex-wrap">
               <TierBadge tierId={profile.highestTierId} size="md" showName />
+              {!profile.isPublic && viewerIsAdmin && (
+                <span className="text-xs px-2.5 py-1 rounded-full font-medium"
+                  style={{ background: "rgba(245,158,11,0.12)", color: "#f59e0b", border: "1px solid rgba(245,158,11,0.25)" }}>
+                  🔒 Private profile
+                </span>
+              )}
               {profile.totalInvestedUsd > 0 && (
                 <span className="text-xs text-silver-400 px-3 py-1 rounded-full"
                   style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
