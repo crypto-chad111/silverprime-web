@@ -53,6 +53,7 @@ export interface FeedMessage {
   highestTierId: string | null;
   highestTierLevel: TierLevel | 0;
   isPublic: boolean;
+  isAuthorAdmin: boolean; // true if posted by an admin — shows gold ring
   content: string;
   isAnnouncement: boolean;  // auto-generated purchase notification
   createdAt: number;

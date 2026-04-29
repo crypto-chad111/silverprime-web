@@ -13,7 +13,7 @@ import { TierBadge } from "@/components/community/TierBadge";
 import { TIERS, TIERS_BY_ID } from "@/data/tiers";
 import type { Profile, Investment, AdminDM } from "@/lib/types";
 
-type Tab = "overview" | "pending" | "members";
+type Tab = "overview" | "pending" | "members" | "messages";
 
 interface MemberRow extends Profile {
   investments: Investment[];
@@ -29,9 +29,12 @@ export function AdminDashboardClient() {
   const [search,  setSearch]  = useState("");
   const [selected, setSelected] = useState<MemberRow | null>(null);
 
-  // DM state
+  // DM state (for selected member panel)
   const [dms,    setDms]    = useState<AdminDM[]>([]);
   const [dmText, setDmText] = useState("");
+
+  // All DMs for Messages tab
+  const [allDms, setAllDms] = useState<AdminDM[]>([]);
 
   // Deny flow
   const [denyTarget, setDenyTarget] = useState<string | null>(null);
@@ -87,6 +90,16 @@ export function AdminDashboardClient() {
       setDms(msgs);
     });
   }, [selected, authState]);
+
+  // ── Real-time listener for ALL DMs (Messages tab) ───────────────────────
+  useEffect(() => {
+    if (authState.status !== "authenticated" || !authState.profile.isAdmin) return;
+    return onSnapshot(collection(db, "adminDms"), snap => {
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminDM));
+      msgs.sort((a, b) => b.createdAt - a.createdAt);
+      setAllDms(msgs);
+    });
+  }, [authState]);
 
   // ── Guards ────────────────────────────────────────────────────────────────
   if (authState.status === "loading" || loading) {
@@ -219,21 +232,29 @@ export function AdminDashboardClient() {
 
         {/* ── Sidebar ───────────────────────────────────────────────────── */}
         <aside className="w-44 border-r border-white/10 p-4 flex flex-col gap-1 shrink-0">
-          {(["overview", "pending", "members"] as Tab[]).map(t => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition ${
-                tab === t
-                  ? "bg-white/10 text-white"
-                  : "text-silver-400 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              {t === "pending"
-                ? `Pending${pendingList.length > 0 ? ` (${pendingList.length})` : ""}`
-                : t.charAt(0).toUpperCase() + t.slice(1)}
-            </button>
-          ))}
+          {(["overview", "pending", "members", "messages"] as Tab[]).map(t => {
+            const unreadCount = t === "messages"
+              ? allDms.filter(d => d.direction === "from_member" && !d.readAt).length
+              : 0;
+            const label =
+              t === "pending"  ? `Pending${pendingList.length > 0 ? ` (${pendingList.length})` : ""}` :
+              t === "messages" ? `Messages${unreadCount > 0 ? ` (${unreadCount})` : ""}` :
+              t.charAt(0).toUpperCase() + t.slice(1);
+            return (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition ${
+                  tab === t ? "bg-white/10 text-white" : "text-silver-400 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                {label}
+                {unreadCount > 0 && (
+                  <span className="ml-1 inline-block w-2 h-2 rounded-full bg-amber-400" />
+                )}
+              </button>
+            );
+          })}
         </aside>
 
         {/* ── Main ──────────────────────────────────────────────────────── */}
@@ -604,6 +625,74 @@ export function AdminDashboardClient() {
 
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ══ MESSAGES ══════════════════════════════════════════════════ */}
+          {tab === "messages" && (
+            <div className="max-w-2xl">
+              <h1 className="text-xl font-bold mb-6">
+                Member Messages
+                {allDms.filter(d => d.direction === "from_member" && !d.readAt).length > 0 && (
+                  <span className="ml-3 text-sm bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-full">
+                    {allDms.filter(d => d.direction === "from_member" && !d.readAt).length} unread
+                  </span>
+                )}
+              </h1>
+
+              {/* Group DMs by member */}
+              {(() => {
+                // Get unique members who have sent messages
+                const seen = new Set<string>();
+                const memberIds = allDms.map(d => d.memberId).filter(id => { if (seen.has(id)) return false; seen.add(id); return true; });
+                if (memberIds.length === 0) {
+                  return <p className="text-silver-500 text-sm">No messages yet.</p>;
+                }
+                return (
+                  <div className="flex flex-col gap-3">
+                    {memberIds.map(memberId => {
+                      const thread = allDms.filter(d => d.memberId === memberId)
+                        .sort((a, b) => b.createdAt - a.createdAt);
+                      const latest  = thread[0];
+                      const unread  = thread.filter(d => d.direction === "from_member" && !d.readAt).length;
+                      const member  = members.find(m => m.uid === memberId);
+                      const name    = latest.memberDisplayName || member?.displayName || "Unknown";
+
+                      return (
+                        <button
+                          key={memberId}
+                          onClick={() => {
+                            const m = members.find(m => m.uid === memberId);
+                            if (m) { setSelected(m); setTab("members"); }
+                          }}
+                          className="w-full text-left rounded-xl px-4 py-3 border transition flex items-center gap-3 bg-white/5 border-white/10 hover:bg-white/8"
+                        >
+                          <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-bold text-white"
+                            style={{ background: "rgba(124,92,255,0.25)" }}>
+                            {name[0]?.toUpperCase()}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium text-white">{name}</span>
+                              {unread > 0 && (
+                                <span className="text-xs bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full">
+                                  {unread} new
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-silver-500 truncate mt-0.5">
+                              {latest.direction === "from_member" ? "↩ " : "↪ "}{latest.content}
+                            </p>
+                          </div>
+                          <div className="text-xs text-silver-600 shrink-0">
+                            {new Date(latest.createdAt).toLocaleDateString()}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
             </div>
           )}
         </main>
