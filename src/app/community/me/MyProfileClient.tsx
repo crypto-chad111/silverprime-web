@@ -4,14 +4,14 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { updateDoc, doc, collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import { updateDoc, doc, collection, query, where, getDocs, orderBy, onSnapshot } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { auth, db, storage } from "@/lib/firebase";
 import { useAuth } from "@/lib/useAuth";
 import { TierBadge } from "@/components/community/TierBadge";
 import { TIERS_BY_ID } from "@/data/tiers";
-import type { Investment } from "@/lib/types";
+import type { Investment, AdminDM } from "@/lib/types";
 
 export function MyProfileClient() {
   const router   = useRouter();
@@ -24,6 +24,8 @@ export function MyProfileClient() {
   const [saveMsg, setSaveMsg]     = useState("");
 
   const [investments, setInvestments] = useState<Investment[]>([]);
+  const [dms, setDms]                 = useState<AdminDM[]>([]);
+  const [unreadDms, setUnreadDms]     = useState(0);
 
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const bannerInputRef = useRef<HTMLInputElement>(null);
@@ -57,6 +59,21 @@ export function MyProfileClient() {
       orderBy("createdAt", "asc"),
     );
     getDocs(q).then(snap => setInvestments(snap.docs.map(d => d.data() as Investment)));
+  }, [authState]);
+
+  // Real-time DMs from admin
+  useEffect(() => {
+    if (authState.status !== "authenticated") return;
+    const q = query(
+      collection(db, "adminDms"),
+      where("memberId", "==", authState.profile.uid),
+    );
+    return onSnapshot(q, snap => {
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminDM));
+      msgs.sort((a, b) => a.createdAt - b.createdAt);
+      setDms(msgs);
+      setUnreadDms(msgs.filter(m => m.direction === "to_member" && !m.readAt).length);
+    });
   }, [authState]);
 
   if (authState.status === "loading") return <LoadingScreen />;
@@ -294,6 +311,52 @@ export function MyProfileClient() {
               <span className="text-[#7C5CFF] text-sm">→</span>
             </Link>
           </div>
+        </div>
+
+        {/* ── Messages from Silver Prime ── */}
+        <div className="rounded-2xl p-5"
+          style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)" }}>
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-white font-medium text-sm">Messages from Silver Prime</span>
+            {unreadDms > 0 && (
+              <span className="text-xs bg-violet-500/30 text-violet-300 px-2 py-0.5 rounded-full font-semibold">
+                {unreadDms} new
+              </span>
+            )}
+          </div>
+          {dms.length === 0 ? (
+            <p className="text-silver-600 text-sm">No messages yet.</p>
+          ) : (
+            <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
+              {dms.map(dm => (
+                <div
+                  key={dm.id}
+                  className={`px-4 py-3 rounded-xl text-sm max-w-[85%] ${
+                    dm.direction === "to_member"
+                      ? "self-start"
+                      : "self-end"
+                  }`}
+                  style={{
+                    background: dm.direction === "to_member"
+                      ? "rgba(124,92,255,0.12)"
+                      : "rgba(255,255,255,0.06)",
+                    border: dm.direction === "to_member"
+                      ? "1px solid rgba(124,92,255,0.25)"
+                      : "1px solid rgba(255,255,255,0.08)",
+                    color: dm.direction === "to_member" ? "#c4b5fd" : "#94a3b8",
+                  }}
+                >
+                  {dm.direction === "to_member" && (
+                    <p className="text-xs text-violet-400 font-semibold mb-1">Silver Prime</p>
+                  )}
+                  <p>{dm.content}</p>
+                  <p className="text-xs opacity-50 mt-1">
+                    {new Date(dm.createdAt).toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* ── Change password ── */}
