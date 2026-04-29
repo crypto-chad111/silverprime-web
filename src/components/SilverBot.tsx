@@ -251,25 +251,29 @@ export function SilverBot() {
       ? edgePositions[posIdx % edgePositions.length]
       : { x: 9999, y: 9999, edge: "bottom" };
 
-  // ── Chat window viewport-fixed positioning ──────────────────────────────────
-  // Switch to position:fixed so the chat is always fully on-screen regardless
-  // of where the orb is sitting.
+  // ── Chat window positioning ─────────────────────────────────────────────────
+  // The motion.div uses CSS transform (translate), which makes it the containing
+  // block for position:fixed children — so fixed won't anchor to the viewport.
+  // We use position:absolute instead, but convert our desired viewport-clamped
+  // coordinates back into the container's local space:
+  //   absolute_top = desired_viewport_top - currentPos.y
+  //
+  // This keeps the chat fully on screen regardless of where the orb drifts.
   const chatMaxHeight = Math.min(480, viewportHeight - 120);
   const chatWidth     = Math.min(340, viewportWidth  -  48);
 
-  // Prefer opening downward; fall back to upward if not enough space below.
+  // Prefer below; fall back to above if not enough space below the orb.
   const spaceBelow    = viewportHeight - (currentPos.y + ORB_SIZE) - 16;
   const openDownward  = spaceBelow >= chatMaxHeight || currentPos.y < viewportHeight / 2;
 
-  // Raw top, then clamped so chat never clips the top or bottom edge.
-  const rawChatTop    = openDownward
+  // Desired viewport-y for the chat top, clamped to never clip any edge.
+  const rawViewportTop   = openDownward
     ? currentPos.y + ORB_SIZE + 12
     : currentPos.y - chatMaxHeight - 12;
-  const chatTop       = Math.max(8, Math.min(rawChatTop, viewportHeight - chatMaxHeight - 8));
+  const clampedViewportTop = Math.max(8, Math.min(rawViewportTop, viewportHeight - chatMaxHeight - 8));
 
-  // Right-align with the orb's right edge; clamp so chat doesn't overflow either side.
-  const orbRightEdge  = currentPos.x + ORB_SIZE;
-  const chatRight     = Math.max(8, Math.min(viewportWidth - orbRightEdge, viewportWidth - chatWidth - 8));
+  // Convert back to absolute coordinates relative to the 52×52 container.
+  const chatAbsoluteTop = clampedViewportTop - currentPos.y;
 
   // ── Init positions & resize handler ────────────────────────────────────────
   useEffect(() => {
@@ -424,11 +428,11 @@ export function SilverBot() {
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
             className="rounded-2xl overflow-hidden flex flex-col"
             style={{
-              // Fixed positioning keeps the chat fully on-screen regardless
-              // of where the orb is currently sitting.
-              position: "fixed",
-              top:   chatTop,
-              right: chatRight,
+              // Absolute within the 52×52 orb container.
+              // chatAbsoluteTop converts our viewport-clamped y back to container-local coords.
+              position: "absolute",
+              top:   chatAbsoluteTop,
+              right: 0,
               width:  chatWidth,
               height: chatMaxHeight,
               background: "rgba(14,14,18,0.96)",
@@ -437,7 +441,6 @@ export function SilverBot() {
                 "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,92,255,0.1)",
               backdropFilter: "blur(20px)",
               pointerEvents: "all",
-              zIndex: 51,
             }}
           >
             {/* Header */}
