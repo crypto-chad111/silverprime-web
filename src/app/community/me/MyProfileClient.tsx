@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { updateDoc, doc, collection, query, where, getDocs, orderBy, onSnapshot } from "firebase/firestore";
+import { updateDoc, addDoc, doc, collection, query, where, getDocs, orderBy, onSnapshot } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { auth, db, storage } from "@/lib/firebase";
@@ -139,18 +139,22 @@ export function MyProfileClient() {
     e.preventDefault();
     if (!dmReply.trim() || dmSending) return;
     setDmSending(true);
-    const { addDoc, collection: col } = await import("firebase/firestore");
-    await addDoc(col(db, "adminDms"), {
-      adminId:           "",
-      memberId:          profile.uid,
-      memberDisplayName: profile.displayName,
-      direction:         "from_member",
-      content:           dmReply.trim(),
-      readAt:            null,
-      createdAt:         Date.now(),
-    });
-    setDmReply("");
-    setDmSending(false);
+    try {
+      await addDoc(collection(db, "adminDms"), {
+        adminId:           "",
+        memberId:          profile.uid,
+        memberDisplayName: profile.displayName,
+        direction:         "from_member",
+        content:           dmReply.trim(),
+        readAt:            null,
+        createdAt:         Date.now(),
+      });
+      setDmReply("");
+    } catch (err) {
+      console.error("DM reply failed:", err);
+    } finally {
+      setDmSending(false);
+    }
   };
 
   const totalInvested = investments.reduce((s, i) => s + i.amountUsd, 0);
