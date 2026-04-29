@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   collection, getDocs, doc, updateDoc, addDoc,
-  query, where, orderBy, onSnapshot,
+  query, where, onSnapshot,
 } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
@@ -79,12 +79,13 @@ export function AdminDashboardClient() {
     if (!selected || authState.status !== "authenticated") { setDms([]); return; }
     const q = query(
       collection(db, "adminDms"),
-      where("memberId", "==", selected.uid),
-      orderBy("createdAt", "asc")
+      where("memberId", "==", selected.uid)
     );
-    return onSnapshot(q, snap =>
-      setDms(snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminDM)))
-    );
+    return onSnapshot(q, snap => {
+      const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() } as AdminDM));
+      msgs.sort((a, b) => a.createdAt - b.createdAt);
+      setDms(msgs);
+    });
   }, [selected, authState]);
 
   // ── Guards ────────────────────────────────────────────────────────────────
