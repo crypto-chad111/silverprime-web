@@ -230,20 +230,52 @@ const STRETCH_GOALS = [
   {
     amount: "$1.5M",
     label: "Minimum goal",
-    detail: "Year 1 production run — 1,000 units, core team setup",
+    summary: "Get the factory running. Build and ship the first Early Bird units.",
     icon: "🚀",
+    breakdown: [
+      { icon: "🏭", item: "Production facility",        detail: "Year 1 warehouse lease — 1,000 m², ceiling ≥8 m for indoor flight testing" },
+      { icon: "🔧", item: "Assembly area",              detail: "ESD anti-static workbenches, professional lighting, anti-static flooring" },
+      { icon: "🖨️", item: "3D printing room",           detail: "2× Bambu X1E industrial printers, ventilation system, filament storage" },
+      { icon: "🎨", item: "Paint shop",                 detail: "Professional spray booth with extraction system and safety equipment" },
+      { icon: "⚗️", item: "Electronics lab",            detail: "Soldering stations, reflow oven, inspection microscopes, QA test benches" },
+      { icon: "✈️", item: "Flight test rig",            detail: "Indoor netting enclosure for drone calibration and safety testing" },
+      { icon: "📦", item: "Packaging & dispatch",       detail: "Labelling station, postal scales, shipping benches" },
+      { icon: "🗄️", item: "Component storage",          detail: "Industrial racking and secure parts room" },
+      { icon: "🛸", item: "First production run",       detail: "Materials + manufacturing for all Kickstarter backer units" },
+      { icon: "📋", item: "CE / FCC certification",     detail: "Full regulatory approval for US, EU, and UK markets" },
+      { icon: "🚚", item: "Fulfillment & logistics",    detail: "Picking, packing, and worldwide delivery to all backers" },
+    ],
   },
   {
     amount: "$2M",
     label: "Stretch goal A",
-    detail: "Shoulder platform included FREE in all Pro+ tiers",
+    summary: "Upgrade to a proper workplace. Shoulder platform FREE for all Pro Bundle+ backers.",
     icon: "🎁",
+    breakdown: [
+      { icon: "🏢", item: "Conference room",            detail: "AV system, presentation screen, and meeting furniture for investor and partner calls" },
+      { icon: "💼", item: "Open-plan office",           detail: "8 ergonomic workstations, dual monitors, full cabling for the team" },
+      { icon: "🚿", item: "Staff welfare facilities",   detail: "2× bathrooms, 2× showers, and a kitchen / break room" },
+      { icon: "🖥️", item: "IT infrastructure",          detail: "Server/NAS, network switches, security cameras, and access control" },
+      { icon: "🎁", item: "Shoulder platform — FREE",   detail: "Production cost of the shoulder harness absorbed by the campaign for all Pro Bundle+ backers" },
+      { icon: "➕", item: "Second assembly line",       detail: "Doubles monthly unit output for faster fulfilment" },
+      { icon: "🔍", item: "Dedicated QA station",       detail: "Full quality-control testing rig — every unit tested before it ships" },
+      { icon: "🌍", item: "Global shipping partners",   detail: "DHL/FedEx business accounts and customs pre-clearance documentation" },
+    ],
   },
   {
     amount: "$3M",
     label: "Stretch goal B",
-    detail: "Dual-camera AIPC variant + night vision mode unlocked",
+    summary: "R&D expansion. Dual-camera AIPC variant and night vision mode unlocked for all backers.",
     icon: "🌙",
+    breakdown: [
+      { icon: "🔬", item: "R&D lab",                    detail: "Dedicated prototyping space with clean bench area and component storage" },
+      { icon: "📷", item: "Dual-camera module",         detail: "Hardware design, new tooling, and additional PCB revision for a dual-lens variant" },
+      { icon: "🌙", item: "Night vision sensor",        detail: "IR module integration and thermal / low-light testing" },
+      { icon: "⚙️", item: "Additional equipment",       detail: "CNC machine and laser cutter for precision custom parts" },
+      { icon: "🏗️", item: "Factory expansion",          detail: "500 m² annex for increased production and testing capacity" },
+      { icon: "📋", item: "Extended certification",     detail: "Night vision and dual-camera regulatory approval for US, EU, and UK" },
+      { icon: "📈", item: "Increased production",       detail: "Scale manufacturing capacity to 3,000 units per year" },
+    ],
   },
 ];
 
@@ -385,6 +417,114 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+// ─── Stretch Goals Section ────────────────────────────────────────────────────
+function StretchGoalsSection() {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+
+  const toggle = (i: number) => setOpenIdx((prev) => (prev === i ? null : i));
+
+  return (
+    <section className="py-16 px-6" style={{ background: "rgba(255,255,255,0.02)" }}>
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3">
+          Stretch Goals
+        </h2>
+        <p className="text-white/40 text-center text-sm mb-10">
+          The more we raise, the more you get. Click any goal to see exactly where the money goes.
+        </p>
+
+        <div className="space-y-4">
+          {STRETCH_GOALS.map((g, i) => {
+            const isOpen = openIdx === i;
+            return (
+              <motion.div
+                key={g.amount}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="rounded-xl overflow-hidden"
+                style={{
+                  border: isOpen
+                    ? "1px solid rgba(124,92,255,0.4)"
+                    : "1px solid rgba(255,255,255,0.08)",
+                  background: isOpen
+                    ? "rgba(124,92,255,0.05)"
+                    : "rgba(255,255,255,0.02)",
+                  transition: "border-color 0.2s, background 0.2s",
+                }}
+              >
+                {/* ── Header row — always visible, clickable ── */}
+                <button
+                  onClick={() => toggle(i)}
+                  className="w-full flex items-center gap-5 px-6 py-5 text-left"
+                >
+                  <div className="text-2xl shrink-0">{g.icon}</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 flex-wrap mb-1">
+                      <span className="font-bold text-[#7C5CFF] text-xl">{g.amount}</span>
+                      <span className="text-white/35 text-xs uppercase tracking-widest">{g.label}</span>
+                    </div>
+                    <p className="text-white/50 text-sm">{g.summary}</p>
+                  </div>
+                  {/* Chevron */}
+                  <div
+                    className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300"
+                    style={{
+                      background: "rgba(124,92,255,0.12)",
+                      transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                    }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 4l4 4 4-4" stroke="#7C5CFF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                </button>
+
+                {/* ── Expandable breakdown ── */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: "easeInOut" }}
+                    >
+                      <div
+                        className="px-6 pb-6 pt-1"
+                        style={{ borderTop: "1px solid rgba(124,92,255,0.15)" }}
+                      >
+                        {i > 0 && (
+                          <p className="text-xs text-white/30 italic mb-4 pt-3">
+                            ✓ Includes everything from the previous goal{i > 1 ? "s" : ""}, plus:
+                          </p>
+                        )}
+                        {i === 0 && <div className="pt-3" />}
+                        <div className="space-y-3">
+                          {g.breakdown.map((row) => (
+                            <div key={row.item} className="flex items-start gap-3">
+                              <span className="text-lg shrink-0 mt-0.5">{row.icon}</span>
+                              <div className="min-w-0">
+                                <span className="text-sm font-medium text-white/80">{row.item}</span>
+                                <span className="text-white/30 mx-2">—</span>
+                                <span className="text-sm text-white/45">{row.detail}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -705,38 +845,7 @@ export function KickstarterClient() {
       </section>
 
       {/* ── STRETCH GOALS ─────────────────────────────────────────────────── */}
-      <section className="py-16 px-6" style={{ background: "rgba(255,255,255,0.02)" }}>
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3">
-            Stretch Goals
-          </h2>
-          <p className="text-white/40 text-center text-sm mb-10">
-            The more we raise, the more you get.
-          </p>
-          <div className="space-y-4">
-            {STRETCH_GOALS.map((g, i) => (
-              <motion.div
-                key={g.amount}
-                initial={{ opacity: 0, x: -16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="flex items-center gap-5 rounded-xl px-6 py-5"
-                style={{ border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}
-              >
-                <div className="text-2xl shrink-0">{g.icon}</div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 flex-wrap mb-1">
-                    <span className="font-bold text-[#7C5CFF] text-xl">{g.amount}</span>
-                    <span className="text-white/35 text-xs uppercase tracking-widest">{g.label}</span>
-                  </div>
-                  <p className="text-white/50 text-sm">{g.detail}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <StretchGoalsSection />
 
       {/* ── FAQ ───────────────────────────────────────────────────────────── */}
       <section className="py-20 px-6">
