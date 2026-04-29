@@ -11,6 +11,7 @@ const links = [
   { href: "/aipc", label: "AIPC" },
   { href: "/kickstarter", label: "Kickstarter 🚀" },
   { href: "/download", label: "Download" },
+  { href: "/community", label: "Founders Club 💎" },
 ];
 
 export function Nav() {
