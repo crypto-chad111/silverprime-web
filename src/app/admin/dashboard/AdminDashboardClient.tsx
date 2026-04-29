@@ -235,6 +235,10 @@ export function AdminDashboardClient() {
             className="text-xs text-violet-400 hover:text-violet-300 transition font-medium">
             💬 View Feed
           </Link>
+          <Link href="/community/me"
+            className="text-xs text-silver-400 hover:text-white transition">
+            My Profile
+          </Link>
           <button
             onClick={() => signOut(auth).then(() => router.replace("/admin"))}
             className="text-xs text-silver-400 hover:text-white transition"
