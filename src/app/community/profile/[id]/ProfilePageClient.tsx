@@ -169,10 +169,13 @@ export function ProfilePageClient({ uid }: { uid: string }) {
 function PageShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen" style={{ background: "#0A0A0C" }}>
-      <header className="flex items-center px-5 py-3 sticky top-0 z-30"
+      <header className="flex items-center justify-between px-5 py-3 sticky top-0 z-30"
         style={{ background: "rgba(10,10,12,0.9)", borderBottom: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(12px)" }}>
         <Link href="/community/feed" className="text-sm text-silver-400 hover:text-white transition">
           ← Back to feed
+        </Link>
+        <Link href="/" className="text-sm font-semibold text-silver-300 hover:text-white transition">
+          Silver Prime
         </Link>
       </header>
       <div className="px-4 py-8">{children}</div>

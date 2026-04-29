@@ -225,7 +225,7 @@ export function AdminDashboardClient() {
       {/* ── Top bar ─────────────────────────────────────────────────────── */}
       <header className="border-b border-white/10 px-6 py-3 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2 text-sm">
-          <span className="font-semibold text-silver-300">Silver Prime</span>
+          <Link href="/" className="font-semibold text-silver-300 hover:text-white transition">Silver Prime</Link>
           <span className="text-silver-600">/</span>
           <span className="font-bold">Admin Dashboard</span>
         </div>

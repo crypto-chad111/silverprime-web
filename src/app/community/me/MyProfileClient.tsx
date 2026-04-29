@@ -164,10 +164,16 @@ export function MyProfileClient() {
       {/* Nav */}
       <header className="flex items-center justify-between px-5 py-3 sticky top-0 z-30"
         style={{ background: "rgba(10,10,12,0.9)", borderBottom: "1px solid rgba(255,255,255,0.06)", backdropFilter: "blur(12px)" }}>
-        <Link href="/community/feed" className="text-sm text-silver-400 hover:text-white transition">← Feed</Link>
-        <span className="text-base font-bold text-white">My Profile</span>
-        <button onClick={() => { auth.signOut(); router.push("/community"); }}
-          className="text-xs text-silver-600 hover:text-silver-400 transition">Sign out</button>
+        <div className="flex items-center gap-2 text-sm">
+          <Link href="/" className="font-semibold text-silver-300 hover:text-white transition">Silver Prime</Link>
+          <span className="text-silver-600">/</span>
+          <span className="font-bold text-white">My Profile</span>
+        </div>
+        <div className="flex items-center gap-4 text-xs">
+          <Link href="/community/feed" className="text-silver-400 hover:text-white transition">← Feed</Link>
+          <button onClick={() => { auth.signOut(); router.push("/community"); }}
+            className="text-silver-600 hover:text-silver-400 transition">Sign out</button>
+        </div>
       </header>
 
       <div className="max-w-2xl mx-auto px-4 py-8 flex flex-col gap-6">
