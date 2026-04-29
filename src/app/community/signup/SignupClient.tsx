@@ -227,7 +227,8 @@ export function SignupClient() {
                           required
                           placeholder="jane_founder"
                           maxLength={24}
-                          className="pl-7 w-full"
+                          className="w-full"
+                          style={{ paddingLeft: "1.75rem" }}
                         />
                       </div>
                     </Field>
