@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   collection, getDocs, doc, updateDoc, addDoc,
-  query, where, onSnapshot,
+  query, where, onSnapshot, writeBatch,
 } from "firebase/firestore";
 import { signOut } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
@@ -192,6 +193,17 @@ export function AdminDashboardClient() {
     setDmText("");
   }
 
+  // Mark all unread from_member DMs for a member as read
+  async function markDmsRead(memberId: string) {
+    const unread = allDms.filter(
+      d => d.memberId === memberId && d.direction === "from_member" && !d.readAt
+    );
+    if (!unread.length) return;
+    const batch = writeBatch(db);
+    unread.forEach(d => batch.update(doc(db, "adminDms", d.id), { readAt: Date.now() }));
+    await batch.commit();
+  }
+
   // Helper — patch local state
   function patch(uid: string, changes: Partial<MemberRow>) {
     setMembers(prev => prev.map(m => m.uid === uid ? { ...m, ...changes } : m));
@@ -219,6 +231,10 @@ export function AdminDashboardClient() {
         </div>
         <div className="flex items-center gap-4">
           <span className="text-xs text-silver-500">{admin.email}</span>
+          <Link href="/community/feed"
+            className="text-xs text-violet-400 hover:text-violet-300 transition font-medium">
+            💬 View Feed
+          </Link>
           <button
             onClick={() => signOut(auth).then(() => router.replace("/admin"))}
             className="text-xs text-silver-400 hover:text-white transition"
@@ -427,7 +443,10 @@ export function AdminDashboardClient() {
                   {filtered.map(member => (
                     <button
                       key={member.uid}
-                      onClick={() => setSelected(prev => prev?.uid === member.uid ? null : member)}
+                      onClick={() => {
+                        setSelected(prev => prev?.uid === member.uid ? null : member);
+                        markDmsRead(member.uid);
+                      }}
                       className={`w-full text-left rounded-xl px-4 py-3 border transition flex items-center gap-3 ${
                         selected?.uid === member.uid
                           ? "bg-white/10 border-violet-500/40"
@@ -663,7 +682,7 @@ export function AdminDashboardClient() {
                           key={memberId}
                           onClick={() => {
                             const m = members.find(m => m.uid === memberId);
-                            if (m) { setSelected(m); setTab("members"); }
+                            if (m) { setSelected(m); setTab("members"); markDmsRead(memberId); }
                           }}
                           className="w-full text-left rounded-xl px-4 py-3 border transition flex items-center gap-3 bg-white/5 border-white/10 hover:bg-white/8"
                         >
