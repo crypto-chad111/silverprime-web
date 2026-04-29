@@ -1,40 +1,37 @@
 # Session Checkpoint
 **Project:** Silver Prime — AIPC Drone & Android AI Assistant
-**Last updated:** 2026-04-29 (Session 4)
+**Last updated:** 2026-04-30 (Session 5)
 **Repo:** https://github.com/crypto-chad111/silverprime-web
-**Live site:** https://silverprime.app (custom domain — purchased from Netlify, HTTPS active)
-**Fallback:** https://silverprime.netlify.app (still works)
+**Live site:** https://silverprime.app
+**Fallback:** https://silverprime.netlify.app
 **Working directory:** C:\dev\SilverPrime-Web
 
 ---
 
-## What Was Completed This Session (2026-04-29 Session 4)
+## What Was Completed This Session (2026-04-30 Session 5)
 
 | Commit | What Shipped |
 |---|---|
-| `5c376ef` | Fix: admin sees full profile regardless of privacy setting; amber "🔒 Private profile" badge shown to admin |
-| `482a7e3` | Fix: "My Profile" link added to admin dashboard header |
-| `119dc1c` | Feat: "💬 View Feed" link in admin header; mark DMs read on open (unread dot clears) |
-| `c92b798` | Feat: admin gold ring in feed, admin bypasses privacy in feed, "💬 Message Admin" button for members, admin Messages inbox tab |
-| `ea12134` | Fix attempt: SilverBot chat — switched to position:fixed (broke chat — reverted next commit) |
-| `1aa8215` | Fix: SilverBot chat window — position:absolute with viewport-clamped coordinates; chat always fully on screen |
-| `7296845` | Feat: "Silver Prime" top-left links to `/` in admin dashboard, My Profile, and member profile headers |
+| `7296845` | Feat: "Silver Prime" top-left links to `/` in admin, My Profile, and member profile headers |
+| `1aa8215` | Fix: SilverBot chat window — position:absolute with viewport-clamped coordinates (always fully visible) |
+| `f8822fa` | Feat: Full Kickstarter page rebuild — countdown timer, 14-tier data, gallery, FAQ accordion, Firestore waitlist |
+| `de8d6fc` | Feat: Stretch goals expandable breakdown panels with itemised spend per goal |
 
-**Domain purchased this session:**
-- `silverprime.app` purchased via Netlify ($16.99/yr) — zero DNS config needed
-- HTTPS SSL auto-provisioned and confirmed working
-- Firebase Auth: `silverprime.app` must be added to Authorized Domains in Firebase Console
+**Key decisions this session:**
+- Kickstarter launch date set to **Oct 1 2026** (easily changed in `LAUNCH_DATE` const at top of `KickstarterClient.tsx`)
+- 14 tiers defined; **4 shown as teaser** on page — full list revealed on launch day
+- Waitlist emails saved to Firestore `waitlistEmails` collection (deduped by email)
+- Stretch goals show itemised spend breakdown on click — no salary/personal details, only infrastructure + production
 
-**Tested and confirmed working:**
-- ✅ All previous features still working
-- ✅ Admin can view private member profiles (full profile, not lock screen)
-- ✅ Admin gold ring visible in community feed
-- ✅ Members can message admin without waiting for admin to DM first
-- ✅ Admin Messages inbox tab — unread amber dot clears on open
-- ✅ "View Feed" and "My Profile" links in admin dashboard header
-- ✅ SilverBot chat opens correctly regardless of orb drift position
-- ✅ "Silver Prime" logo in all community/admin headers links back to `/`
-- ✅ `silverprime.app` live with HTTPS
+**Firestore rules updated (manually in Firebase Console):**
+- Added `waitlistEmails` collection: `allow create: if true` (anyone), read/update/delete admin only
+
+**Pending discussion — shipping timeline:**
+- User wants conservative, realistic ship dates
+- Year 1: Early Bird units only (Pioneer Pack $399 backers first)
+- Year 2: ramp up gradually
+- Year 3: full scale
+- Exact numbers TBD next session
 
 ---
 
@@ -49,7 +46,7 @@
 | `/roadmap` | ✅ Live | App + hardware milestones |
 | `/why` | ✅ Live | Comparison matrix |
 | `/download` | ✅ Live | APK access |
-| `/kickstarter` | ✅ Live | Pre-launch waitlist |
+| `/kickstarter` | ✅ Live | **Full build** — countdown, gallery, 14 tiers (4 shown), stretch goals, FAQ, waitlist |
 | `/api/chat` | ✅ Live | SilverBot AI backend (Groq) |
 
 ### Founders Club Routes
@@ -59,11 +56,29 @@
 | `/community/signup` | ✅ Live | 3-step signup with proof upload |
 | `/community/pending` | ✅ Live | Pending approval waiting screen |
 | `/community/feed` | ✅ Live | Real-time chat, tier stats bar, privacy-aware avatars, admin gold ring |
-| `/community/me` | ✅ Live | Profile editor, avatar/banner, investments, DM inbox + reply, password change; breadcrumb header |
+| `/community/me` | ✅ Live | Profile editor, avatar/banner, investments, DM inbox + reply, password change |
 | `/community/profile/[id]` | ✅ Live | Public profile view; private shows anonymous backer; admin sees full profile |
 | `/admin` | ✅ Live | Admin login with isAdmin check |
-| `/admin/dashboard` | ✅ Live | Overview, pending queue, member table, ban/unban, DM thread, messages inbox, View Feed + My Profile links |
+| `/admin/dashboard` | ✅ Live | Overview, pending queue, member table, ban/unban, DM thread, messages inbox |
 | `/admin/recovery` | 🔲 TODO | Safe code lockout recovery |
+
+---
+
+## Kickstarter Page — Full Feature List
+| Feature | Status |
+|---|---|
+| Live countdown timer (Oct 1 2026) | ✅ |
+| Product image gallery (6 images + thumbnails) | ✅ |
+| Stats bar (weight, on-device, size) | ✅ |
+| The Problem section | ✅ |
+| Pillars (4 differentiators) | ✅ |
+| 4 featured reward tiers + "14 tiers on launch day" note | ✅ |
+| Stretch goals with expandable itemised breakdown | ✅ |
+| FAQ accordion (8 questions) | ✅ |
+| Waitlist form → Firestore `waitlistEmails` | ✅ |
+| Campaign facts footer | ✅ |
+| Shipping timeline (years 1/2/3) | 🔲 TODO — discuss next session |
+| Email confirmation on signup | 🔲 TODO |
 
 ---
 
@@ -71,10 +86,9 @@
 | Resource | Status | Notes |
 |---|---|---|
 | Project ID | `silverprime-founders` | Blaze plan |
-| Firestore | ✅ Live | eur3 europe-west, production rules active |
-| Storage | ✅ Live | US-CENTRAL1, production rules |
-| Auth | ✅ Live | Email/Password enabled |
-| Authorized domains | ⚠️ Action needed | Add `silverprime.app` in Firebase Console → Auth → Settings → Authorized domains |
+| Firestore | ✅ Live | Updated rules include `waitlistEmails` |
+| Storage | ✅ Live | US-CENTRAL1 |
+| Auth | ✅ Live | `silverprime.app` added to authorized domains ✅ |
 
 ### Current Firestore Rules
 ```
@@ -90,6 +104,10 @@ service cloud.firestore {
       return isSignedIn() &&
         get(/databases/$(database)/documents/profiles/$(request.auth.uid)).data.isVerified == true &&
         get(/databases/$(database)/documents/profiles/$(request.auth.uid)).data.isBanned == false;
+    }
+    match /waitlistEmails/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
     }
     match /profiles/{userId} {
       allow read: if isSignedIn();
@@ -125,11 +143,11 @@ service cloud.firestore {
 ---
 
 ## Domain & Hosting
-| Item | Status | Notes |
-|---|---|---|
-| `silverprime.app` | ✅ Live | Purchased via Netlify $16.99/yr, HTTPS auto-provisioned |
-| `silverprime.netlify.app` | ✅ Live | Original URL, still works as fallback |
-| Netlify auto-deploy | ✅ Live | Pushes to `main` → live in ~2 min |
+| Item | Status |
+|---|---|
+| `silverprime.app` | ✅ Live — purchased via Netlify, HTTPS active |
+| `silverprime.netlify.app` | ✅ Live — fallback URL |
+| Firebase Auth authorized domain | ✅ `silverprime.app` added |
 
 ---
 
@@ -137,41 +155,41 @@ service cloud.firestore {
 | Variable | Status |
 |---|---|
 | `GROQ_API_KEY` | ✅ Set (secret) |
-| `NEXT_PUBLIC_FIREBASE_API_KEY` | ✅ Set |
-| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | ✅ Set |
-| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ✅ Set |
-| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | ✅ Set |
-| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | ✅ Set |
-| `NEXT_PUBLIC_FIREBASE_APP_ID` | ✅ Set |
-| `SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES` | ✅ Set — bypasses AIza*** pattern scanner |
-| `ADMIN_SAFE_CODE` | ⚠️ NOT YET SET — needed for /admin/recovery |
+| `NEXT_PUBLIC_FIREBASE_*` (6 vars) | ✅ All set |
+| `SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES` | ✅ Set |
+| `ADMIN_SAFE_CODE` | ⚠️ NOT YET SET — needed for `/admin/recovery` |
 
 ---
 
 ## Admin Account
-Your real admin account is created and working. Firestore profile doc has:
-- `isAdmin: true`
-- `isVerified: true`
-- `highestTierId: "lead-investor"`
-- `highestTierLevel: 9`
+- `isAdmin: true` · `isVerified: true` · `highestTierId: "lead-investor"` · `highestTierLevel: 9`
 
 ---
 
 ## Pending Work — Do This Next
 
-**1. Add `silverprime.app` to Firebase Auth authorized domains**
-- Firebase Console → Authentication → Settings → Authorized domains → Add `silverprime.app`
-- Without this, login/signup on the custom domain will be blocked
+**1. Kickstarter shipping timeline** — discuss and add a Year 1/2/3 section to `/kickstarter`
+- Year 1: Early Bird / Pioneer Pack only (conservative)
+- Year 2: gradual ramp
+- Year 3: full production scale
+- User wants no over-promising
 
-**2. `/admin/recovery`** — safe code lockout recovery
-- Admin enters `ADMIN_SAFE_CODE` passphrase + registered email → receives reset link
-- Add `ADMIN_SAFE_CODE` to Netlify env vars
+**2. `/admin/recovery`** — safe code lockout recovery page; add `ADMIN_SAFE_CODE` to Netlify env vars
 
-**3. Kickstarter campaign page — full build**
-- Countdown timer, finalised tier pricing, email capture backend
+**3. Email confirmation** — send confirmation email when someone joins the waitlist
 
-**4. Email backend**
-- Wire /kickstarter and /#waitlist forms to real email capture
+**4. Full Kickstarter tier reveal** — on launch day, swap the teaser to show all 14 tiers
+
+**5. Email backend for /#waitlist (homepage)** — wire to same Firestore collection
+
+---
+
+## Key Config in Code
+| Item | Location | Value |
+|---|---|---|
+| Kickstarter launch date | `src/app/kickstarter/KickstarterClient.tsx` line ~11 | `2026-10-01T10:00:00Z` |
+| Featured tiers (4 shown) | Same file — `featured: true` flag on each tier | Pioneer $399, Pro Bundle $599, Innovator $999, Founding Partner $2.5K |
+| SilverBot knowledge base | `src/data/silverbot-knowledge.ts` | Edit to update AI answers |
 
 ---
 
@@ -180,16 +198,12 @@ Your real admin account is created and working. Firestore profile doc has:
 |---|---|
 | Android-only | iOS cancelled, not deferred |
 | No custom token | Solana marketplace uses $SOL only |
-| AIPC pricing held | Not published until Kickstarter campaign finalised |
-| HQ location | TBD — Saudi Arabia high on list but private until finalised |
+| AIPC pricing held until Kickstarter | All pages point to /kickstarter |
 | Kickstarter-only funding | No VC, no angels, no grants |
-| Firebase (not Supabase) | User already had Firebase account |
-| Founders Club = /community | Same domain, not separate |
-| Platform name | Silver Prime Founders Club |
-| Admin safe code | Agreed privately at build time, stored only as Netlify env var `ADMIN_SAFE_CODE` |
-| Firebase API keys | NOT secret — protected by security rules + authorized domains |
-| SilverBot knowledge base | `src/data/silverbot-knowledge.ts` — edit to update AI answers |
-| Domain | `silverprime.app` via Netlify — $16.99/yr, zero DNS config |
+| Domain | `silverprime.app` via Netlify — $16.99/yr |
+| Shipping — Year 1 conservative | Early Bird only; ramp Years 2–3 |
+| Firebase API keys | NOT secret — protected by security rules |
+| Founders Club | `/community` routes on same domain |
 
 ---
 

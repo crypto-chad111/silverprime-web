@@ -111,12 +111,13 @@ All 8 AIPC concept renders are AI-generated (Midjourney/similar). Final hardware
 - Font: display font for headings, clean sans for body
 
 ## Pending work
-1. **Firebase Auth authorized domain** — add `silverprime.app` in Firebase Console → Authentication → Settings → Authorized domains (login/signup on custom domain blocked without this)
+1. **Kickstarter shipping timeline** — add Year 1/2/3 production/shipping section to `/kickstarter`; Year 1 = Early Bird only (conservative), ramp Years 2–3
 2. **`/admin/recovery`** — safe code lockout recovery page; add `ADMIN_SAFE_CODE` to Netlify env vars
-3. **Kickstarter campaign page — full build** — build out `/kickstarter` with finalised pricing tiers, countdown timer to launch, email backend (Mailchimp/ConvertKit/Supabase). Feature branch: `feature/kickstarter-full`
-4. **Email backend** — wire /kickstarter and /#waitlist forms to a real email capture service
-5. **Founder bios** — add real names/backgrounds to `KICKSTARTER_CAMPAIGN_NARRATIVE.md`
-6. **Saudi Arabia company setup** — KAEC contact, legal counsel for LLC formation
+3. **Email confirmation** — send confirmation email when someone joins the `waitlistEmails` collection
+4. **Homepage waitlist** — wire `/#waitlist` form to same Firestore `waitlistEmails` collection
+5. **Full tier reveal** — on launch day, remove `featured` filter so all 14 tiers display
+6. **Founder bios** — add real names/backgrounds to `KICKSTARTER_CAMPAIGN_NARRATIVE.md`
+7. **Saudi Arabia company setup** — KAEC contact, legal counsel for LLC formation
 
 ## Netlify environment variables
 - `GROQ_API_KEY` — set as secret. Powers SilverBot AI chatbot at /api/chat
