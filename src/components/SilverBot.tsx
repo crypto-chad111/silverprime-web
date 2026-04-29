@@ -241,6 +241,7 @@ export function SilverBot() {
   const [edgePositions, setEdgePositions] = useState<EdgePos[]>([]);
   const [posIdx, setPosIdx] = useState(3); // start near bottom-right (index 3 = 82% down right edge)
   const [viewportHeight, setViewportHeight] = useState(900);
+  const [viewportWidth, setViewportWidth]   = useState(1440);
   const [ready, setReady] = useState(false);
   const [driftEnabled, setDriftEnabled] = useState(false);
 
@@ -250,10 +251,25 @@ export function SilverBot() {
       ? edgePositions[posIdx % edgePositions.length]
       : { x: 9999, y: 9999, edge: "bottom" };
 
-  // Opening direction: if the orb is high on screen, chat opens DOWNWARD to avoid clipping
-  // Threshold: need at least chatHeight (min 480) + 12px gap below current y
+  // ── Chat window viewport-fixed positioning ──────────────────────────────────
+  // Switch to position:fixed so the chat is always fully on-screen regardless
+  // of where the orb is sitting.
   const chatMaxHeight = Math.min(480, viewportHeight - 120);
-  const openDownward = currentPos.y < chatMaxHeight + 16;
+  const chatWidth     = Math.min(340, viewportWidth  -  48);
+
+  // Prefer opening downward; fall back to upward if not enough space below.
+  const spaceBelow    = viewportHeight - (currentPos.y + ORB_SIZE) - 16;
+  const openDownward  = spaceBelow >= chatMaxHeight || currentPos.y < viewportHeight / 2;
+
+  // Raw top, then clamped so chat never clips the top or bottom edge.
+  const rawChatTop    = openDownward
+    ? currentPos.y + ORB_SIZE + 12
+    : currentPos.y - chatMaxHeight - 12;
+  const chatTop       = Math.max(8, Math.min(rawChatTop, viewportHeight - chatMaxHeight - 8));
+
+  // Right-align with the orb's right edge; clamp so chat doesn't overflow either side.
+  const orbRightEdge  = currentPos.x + ORB_SIZE;
+  const chatRight     = Math.max(8, Math.min(viewportWidth - orbRightEdge, viewportWidth - chatWidth - 8));
 
   // ── Init positions & resize handler ────────────────────────────────────────
   useEffect(() => {
@@ -261,6 +277,7 @@ export function SilverBot() {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       setViewportHeight(vh);
+      setViewportWidth(vw);
       setEdgePositions(getEdgePositions(vw, vh));
     };
     compute();
@@ -401,29 +418,26 @@ export function SilverBot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.88, y: openDownward ? -16 : 16 }}
+            initial={{ opacity: 0, scale: 0.88, y: openDownward ? -10 : 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.88, y: openDownward ? -16 : 16 }}
+            exit={{ opacity: 0, scale: 0.88, y: openDownward ? -10 : 10 }}
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
             className="rounded-2xl overflow-hidden flex flex-col"
             style={{
-              position: "absolute",
-              // Opens upward unless the orb is in the upper portion of the viewport
-              ...(openDownward
-                ? { top: ORB_SIZE + 12 }   // 12 px gap below orb
-                : { bottom: ORB_SIZE + 12 } // 12 px gap above orb
-              ),
-              // Always anchor to the right edge of the orb container;
-              // the 340 px width extends leftward toward viewport center.
-              right: 0,
-              width: "min(340px, calc(100vw - 48px))",
-              height: `min(${chatMaxHeight}px, calc(100vh - 120px))`,
+              // Fixed positioning keeps the chat fully on-screen regardless
+              // of where the orb is currently sitting.
+              position: "fixed",
+              top:   chatTop,
+              right: chatRight,
+              width:  chatWidth,
+              height: chatMaxHeight,
               background: "rgba(14,14,18,0.96)",
               border: "1px solid rgba(124,92,255,0.28)",
               boxShadow:
                 "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,92,255,0.1)",
               backdropFilter: "blur(20px)",
               pointerEvents: "all",
+              zIndex: 51,
             }}
           >
             {/* Header */}
