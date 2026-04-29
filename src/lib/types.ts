@@ -63,7 +63,7 @@ export interface AdminDM {
   adminId: string;
   memberId: string;
   memberDisplayName: string;
-  direction: "to_member" | "to_admin";
+  direction: "to_member" | "to_admin" | "from_member";
   content: string;
   readAt: number | null;
   createdAt: number;

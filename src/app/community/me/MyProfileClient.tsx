@@ -26,6 +26,8 @@ export function MyProfileClient() {
   const [investments, setInvestments] = useState<Investment[]>([]);
   const [dms, setDms]                 = useState<AdminDM[]>([]);
   const [unreadDms, setUnreadDms]     = useState(0);
+  const [dmReply, setDmReply]         = useState("");
+  const [dmSending, setDmSending]     = useState(false);
 
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const bannerInputRef = useRef<HTMLInputElement>(null);
@@ -130,6 +132,25 @@ export function MyProfileClient() {
     } catch {
       setPwMsg("Current password incorrect.");
     }
+  };
+
+  // ── Reply to admin DM ──────────────────────────────────────────────────────
+  const sendDmReply = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!dmReply.trim() || dmSending) return;
+    setDmSending(true);
+    const { addDoc, collection: col } = await import("firebase/firestore");
+    await addDoc(col(db, "adminDms"), {
+      adminId:           "",
+      memberId:          profile.uid,
+      memberDisplayName: profile.displayName,
+      direction:         "from_member",
+      content:           dmReply.trim(),
+      readAt:            null,
+      createdAt:         Date.now(),
+    });
+    setDmReply("");
+    setDmSending(false);
   };
 
   const totalInvested = investments.reduce((s, i) => s + i.amountUsd, 0);
@@ -327,14 +348,12 @@ export function MyProfileClient() {
           {dms.length === 0 ? (
             <p className="text-silver-600 text-sm">No messages yet.</p>
           ) : (
-            <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
+            <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1 mb-3">
               {dms.map(dm => (
                 <div
                   key={dm.id}
-                  className={`px-4 py-3 rounded-xl text-sm max-w-[85%] ${
-                    dm.direction === "to_member"
-                      ? "self-start"
-                      : "self-end"
+                  className={`px-4 py-3 rounded-xl text-sm max-w-[85%] flex flex-col ${
+                    dm.direction === "to_member" ? "self-start" : "self-end"
                   }`}
                   style={{
                     background: dm.direction === "to_member"
@@ -349,14 +368,36 @@ export function MyProfileClient() {
                   {dm.direction === "to_member" && (
                     <p className="text-xs text-violet-400 font-semibold mb-1">Silver Prime</p>
                   )}
+                  {dm.direction === "from_member" && (
+                    <p className="text-xs text-silver-500 font-semibold mb-1">You</p>
+                  )}
                   <p>{dm.content}</p>
-                  <p className="text-xs opacity-50 mt-1">
+                  <p className="text-xs opacity-40 mt-1">
                     {new Date(dm.createdAt).toLocaleString()}
                   </p>
                 </div>
               ))}
             </div>
           )}
+          {/* Reply input */}
+          <form onSubmit={sendDmReply} className="flex gap-2 mt-1">
+            <input
+              type="text"
+              value={dmReply}
+              onChange={e => setDmReply(e.target.value)}
+              placeholder="Reply to Silver Prime…"
+              className="flex-1 rounded-xl px-4 py-2.5 text-sm text-white outline-none"
+              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
+            />
+            <button
+              type="submit"
+              disabled={dmSending || !dmReply.trim()}
+              className="px-4 py-2.5 rounded-xl text-sm font-semibold text-white disabled:opacity-40 transition"
+              style={{ background: "linear-gradient(135deg, #7C5CFF, #5b3fd9)" }}
+            >
+              Send
+            </button>
+          </form>
         </div>
 
         {/* ── Change password ── */}

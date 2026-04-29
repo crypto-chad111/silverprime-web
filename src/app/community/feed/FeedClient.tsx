@@ -181,18 +181,27 @@ function MessageBubble({ msg, isOwn, isAdmin, onDelete }: {
       animate={{ opacity: 1, y: 0 }}
       className={`flex gap-3 ${isOwn ? "flex-row-reverse" : ""}`}
     >
-      {/* Avatar */}
-      <Link href={`/community/profile/${msg.profileId}`} className="shrink-0">
-        <div className="w-8 h-8 rounded-full overflow-hidden"
+      {/* Avatar — only clickable if profile is public and not a system message */}
+      {!profileHidden && msg.profileId !== "system" ? (
+        <Link href={`/community/profile/${msg.profileId}`} className="shrink-0 hover:opacity-80 transition">
+          <div className="w-8 h-8 rounded-full overflow-hidden"
+            style={{ background: "rgba(255,255,255,0.08)" }}>
+            {msg.avatarUrl
+              ? <img src={msg.avatarUrl} alt="" className="w-full h-full object-cover" />
+              : <span className="w-full h-full flex items-center justify-center text-xs font-bold text-silver-400">
+                  {msg.displayName?.[0]?.toUpperCase()}
+                </span>
+            }
+          </div>
+        </Link>
+      ) : (
+        <div className="shrink-0 w-8 h-8 rounded-full overflow-hidden"
           style={{ background: "rgba(255,255,255,0.08)" }}>
-          {!profileHidden && msg.avatarUrl
-            ? <img src={msg.avatarUrl} alt="" className="w-full h-full object-cover" />
-            : <span className="w-full h-full flex items-center justify-center text-xs font-bold text-silver-400">
-                {profileHidden ? "?" : msg.displayName?.[0]?.toUpperCase()}
-              </span>
-          }
+          <span className="w-full h-full flex items-center justify-center text-xs font-bold text-silver-400">
+            {profileHidden ? "?" : "★"}
+          </span>
         </div>
-      </Link>
+      )}
 
       {/* Bubble */}
       <div className={`flex flex-col gap-1 max-w-[72%] ${isOwn ? "items-end" : "items-start"}`}>
